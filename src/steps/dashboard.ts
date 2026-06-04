@@ -16,17 +16,26 @@ export class DashboardPageCases {
 
     }
 
+    // -------------------- Actions --------------------
     async navigateToDashboard() {
         await this.dashboardPage.navDashboard.click();
     }
+
+    async dragAndDrop() {
+        await this.dashboardPage.pinnedAccountPrimary.dragTo(this.dashboardPage.dropZone);
+    }
+
+    // -------------------- Assertions --------------------
     async containerAssertion() {
         await expect(this.dashboardPage.container).toHaveAttribute('data-loading', 'true');
         await this.page.waitForTimeout(300);
         await expect(this.dashboardPage.container).toHaveAttribute('data-loading', 'false');
     }
+
     async checkBalance() {
         await expect(this.dashboardPage.totalBalance).toHaveText('$7,500.00');
     }
+
     async accountCheck() {
         await expect(this.dashboardPage.accountCount).toHaveText('2');
     }
@@ -53,23 +62,6 @@ export class DashboardPageCases {
         expect(await this.sumOfBalance()).toBe(numericValue);
     }
 
-    async addAccountAndVerifyNavigation() {
-        await this.dashboardPage.addAccountButton.click();
-        await this.page.waitForTimeout(300)
-        await expect(this.page).toHaveURL(addAccountUrl);
-    }
-
-    async clickOnDashboard() {
-        await this.accountPage.closePopup.click();
-        await this.dashboardPage.navDashboard.click();
-        await expect(this.page).toHaveURL(dashboardUrl);
-    }
-
-    async addNewTransactionAndVerify() {
-        await this.dashboardPage.addNewTransactionButton.click();
-        await expect(this.page).toHaveURL(newTransactionUrl);
-    }
-
     async rowsInRecentTransaction() {
         await this.dashboardPage.recentTransactionCount.waitFor();
         const count = await this.dashboardPage.recentTransactionCount.count();
@@ -78,36 +70,18 @@ export class DashboardPageCases {
 
     async rowsAssertion() {
         const dateValue = (await this.dashboardPage.dateColumn.textContent())?.trim();
-        //console.log(dateValue)
         const transactionDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        //console.log(date)
         expect(dateValue).toEqual(transactionDate);
 
-        //typecolumn assertion
         await expect(this.dashboardPage.typeColumn).toHaveText('💰 Deposit');
-
         await expect(this.dashboardPage.accountColumn).toHaveText('Primary Savings');
-
         await expect(this.dashboardPage.amountColumn).toHaveText('+$1,000.00');
-
         await expect(this.dashboardPage.statusColumn).toHaveText('Completed');
-
     }
 
     async pinnedAccountAssertion() {
         await expect(this.dashboardPage.pinnedAccountPrimary).toBeVisible();
         await expect(this.dashboardPage.pinnedAccountPrimary).toHaveAttribute('draggable', 'true');
-    }
-
-    async dragAndDrop() {
-        // const beforeDrag = await this.dashboardPage.pinnedAccountValue.textContent()
-        await this.dashboardPage.pinnedAccountPrimary.dragTo(this.dashboardPage.dropZone);
-        //await this.page.reload();
-        //const afterDrag = await this.dashboardPage.pinnedAccountValue.textContent()
-        //console.log(beforeDrag)
-        //console.log(afterDrag)
-        //expect(beforeDrag).not.toBe(afterDrag)
-
     }
 
     async localStorageAssertion() {
@@ -123,7 +97,24 @@ export class DashboardPageCases {
         });
         console.log(afterStorage);
         expect(beforeStorage).toEqual(afterStorage);
+    }
 
+    // -------------------- Workflows --------------------
+    async addAccountAndVerifyNavigation() {
+        await this.dashboardPage.addAccountButton.click();
+        await this.page.waitForTimeout(300)
+        await expect(this.page).toHaveURL(addAccountUrl);
+    }
+
+    async clickOnDashboard() {
+        await this.accountPage.closePopup.click();
+        await this.dashboardPage.navDashboard.click();
+        await expect(this.page).toHaveURL(dashboardUrl);
+    }
+
+    async addNewTransactionAndVerify() {
+        await this.dashboardPage.addNewTransactionButton.click();
+        await expect(this.page).toHaveURL(newTransactionUrl);
     }
 
 

@@ -1,8 +1,8 @@
 import { test as base, expect } from '@playwright/test';
-import { LoginPageCases } from '../src/testcases/login';
-import { DashboardPageCases } from '../src/testcases/dashboard';
-import { AccountPageCases } from '../src/testcases/accounts';
-import { TransactionPageCases } from '../src/testcases/transaction';
+import { LoginPageCases } from '../src/steps/login';
+import { DashboardPageCases } from '../src/steps/dashboard';
+import { AccountPageCases } from '../src/steps/accounts';
+import { TransactionPageCases } from '../src/steps/transaction';
 
 type FlowFixtures = {
     Landingpage: LoginPageCases;

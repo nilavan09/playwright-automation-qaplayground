@@ -16,10 +16,32 @@ export class LoginPageCases {
         this.dashboardPage = new Dashboardpage(page);
     }
 
+    // -------------------- Actions --------------------
     async navigateTo() {
         await this.page.goto(baseBankUrl);
     }
 
+    private async login(username: string, password: string) {
+        await this.loginPage.userName.fill(username);
+        await this.loginPage.password.fill(password);
+    }
+
+    // -------------------- Assertions --------------------
+    async togglePasswordVisibility(password: string) {
+        await this.loginPage.password.fill(password);
+        await expect(this.loginPage.password).toHaveAttribute('type', 'password');
+        await this.loginPage.togglePasswordButton.click();
+        await expect(this.loginPage.password).toHaveAttribute('type', 'text');
+        await this.loginPage.togglePasswordButton.click();
+        await expect(this.loginPage.password).toHaveAttribute('type', 'password');
+    }
+
+    async readOnlyRole() {
+        await expect(this.page).toHaveURL(dashboardUrl);
+        await expect(this.dashboardPage.badge).toHaveText('Read-only');
+    }
+
+    // -------------------- Workflows --------------------
     async successfulLogin(username: string, password: string) {
         await this.login(username, password);
         await this.loginPage.loginButton.click();
@@ -30,35 +52,12 @@ export class LoginPageCases {
         await this.login(username, password);
         await this.loginPage.loginButton.click();
         await expect(this.loginPage.errorMessage).toContainText(invalidCredentialsMessage);
-
     }
 
-    async togglePasswordVisibility(password: string) {
-        await this.loginPage.password.fill(password);
-        await expect(this.loginPage.password).toHaveAttribute('type', 'password');
-        await this.loginPage.togglePasswordButton.click();
-        await expect(this.loginPage.password).toHaveAttribute('type', 'text');
-        await this.loginPage.togglePasswordButton.click();
-        await expect(this.loginPage.password).toHaveAttribute('type', 'password');
-    }
     async withEnterButton(username: string, password: string) {
         await this.login(username, password);
         await this.loginPage.password.press('Enter');
         await expect(this.page).toHaveURL(dashboardUrl);
-    }
-
-    async readOnlyRole() {
-
-        await expect(this.page).toHaveURL(dashboardUrl);
-        await expect(this.dashboardPage.badge).toHaveText('Read-only');
-
-
-    }
-
-
-    private async login(username: string, password: string) {
-        await this.loginPage.userName.fill(username);
-        await this.loginPage.password.fill(password);
     }
 
 };

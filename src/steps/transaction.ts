@@ -20,22 +20,15 @@ export class TransactionPageCases {
 
     }
 
+    // -------------------- Actions --------------------
     async primaryAccountBalance() {
         const val = await this.AccountpageLocators.accountBalance.nth(1).allTextContents()
-        //this.primaryBalance = val.map(v=>Number(v.replace(/[$,]/g,'')));
         return Number(val[0].replace(/[$,]/g, ''));
-
-
     }
 
     async saveInitialBalance() {
         this.initialBalance = await this.primaryAccountBalance();
         console.log('initialBalance:', this.initialBalance);
-    }
-
-    async navigationToTransactionPage() {
-        await this.transactionPage.transactionPageNav.click();
-        await expect(this.page).toHaveURL(transactionsUrl);
     }
 
     async fillTransactionForm() {
@@ -45,22 +38,19 @@ export class TransactionPageCases {
         await this.transactionPage.transactionFromAccountSelectValue.click();
         await this.transactionPage.transactionAmmount.fill('500');
         await this.transactionPage.transactionSaveButton.click();
-
     }
-
-    async primaryAccountBalanceAssertion() {
-
-        const newBalance = await this.primaryAccountBalance();
-        expect(newBalance).toBe(this.initialBalance + 500);
-        console.log('newBalance:', newBalance);
-    }
-
 
     async accountFilterSelection() {
         await this.transactionPage.accountFilter.click();
         await this.transactionPage.accountFilterSelection.click();
-
         await this.transactionPage.applyButton.click();
+    }
+
+    // -------------------- Assertions --------------------
+    async primaryAccountBalanceAssertion() {
+        const newBalance = await this.primaryAccountBalance();
+        expect(newBalance).toBe(this.initialBalance + 500);
+        console.log('newBalance:', newBalance);
     }
 
     async transactionAccouuntRowAssertion() {
@@ -72,7 +62,6 @@ export class TransactionPageCases {
 
     async transactionCount() {
         const transactionCount = await this.transactionPage.transactionBody.count();
-        //console.log(transactionCount)
         return transactionCount;
     }
 
@@ -88,29 +77,29 @@ export class TransactionPageCases {
         expect(this.intialRowCount).not.toBe(afterAdddingAccount);
     }
 
+    // -------------------- Workflows --------------------
+    async navigationToTransactionPage() {
+        await this.transactionPage.transactionPageNav.click();
+        await expect(this.page).toHaveURL(transactionsUrl);
+    }
+
+
 
     async downloadAndAssertDownloaded() {
         const downloadPromise = this.page.waitForEvent('download');
         await this.transactionPage.exportExcel.click();
         await expect(this.transactionPage.transactionToast).toHaveText(transactionsExportedMessage);
-
         const download = await downloadPromise;
-
         const fileName = download.suggestedFilename();
-
         expect(fileName).toMatch(/\.csv$/);
-
         console.log('Downloaded file:', fileName);
-
     }
 
     async transactionIDLinkAndAssertions() {
         await this.transactionPage.transactionID.first().click()
         await expect(this.page).toHaveURL(/\/bank\/transactions\/id_.+/)
 
-        // Breadcrumb assertions
         await expect(this.transactionPage.breadcrumbOne).toHaveText('Dashboard');
-
         await expect(this.transactionPage.breadcrumbTwo).toHaveText('Transactions');
 
         await expect(this.transactionPage.transactionIDType).toBeVisible();
@@ -119,8 +108,6 @@ export class TransactionPageCases {
         await expect(this.transactionPage.transactionDetailAccountLink).toBeVisible();
         await expect(this.transactionPage.transactionDetailBalanceAfter).toBeVisible();
         await expect(this.transactionPage.transactionDetailStatus).toBeVisible();
-
-
     }
 
     async navigateBackFromTransactionPage() {
