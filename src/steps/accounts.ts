@@ -116,7 +116,8 @@ export class AccountPageCases {
         await expect(this.accountPage.balanceColumnHeader).toHaveAttribute('data-sort-direction', 'none');
     }
 
-    // -------------------- Workflows --------------------
+    
+    // -------------------- Workflows&Validations --------------------
     async navigationToAccountPage() {
         await this.accountPage.navToAccounts.click();
         await this.accountPage.rows.first().waitFor();

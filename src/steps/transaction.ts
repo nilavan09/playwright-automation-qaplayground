@@ -77,7 +77,7 @@ export class TransactionPageCases {
         expect(this.intialRowCount).not.toBe(afterAdddingAccount);
     }
 
-    // -------------------- Workflows --------------------
+    // -------------------- Workflows & Validations --------------------
     async navigationToTransactionPage() {
         await this.transactionPage.transactionPageNav.click();
         await expect(this.page).toHaveURL(transactionsUrl);

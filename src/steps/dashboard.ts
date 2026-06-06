@@ -99,7 +99,8 @@ export class DashboardPageCases {
         expect(beforeStorage).toEqual(afterStorage);
     }
 
-    // -------------------- Workflows --------------------
+    
+    // -------------------- Workflows&Validations --------------------
     async addAccountAndVerifyNavigation() {
         await this.dashboardPage.addAccountButton.click();
         await this.page.waitForTimeout(300)
