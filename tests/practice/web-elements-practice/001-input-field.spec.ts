@@ -16,7 +16,7 @@ TC01: Verify successful movie name input
 
 test('TC01: Verify successful movie name input', async({page})=>{
 
-   
+    // Locate the movie name input field by id.
     const inputfield = page.locator('input[id=movieName]')
     await inputfield.fill('Fight club')
     // const entered =await inputfield.inputValue()
@@ -36,7 +36,7 @@ TC02: Verify input placeholder disappears on typing
 
 test('TC02: Verify input placeholder disappears on typing', async({page})=>{
 
-   
+    // Locate the same movie name input field.
     const placeholdertext = page.locator('input[id=movieName]')
     await (expect(placeholdertext).toHaveAttribute('placeholder','Enter hollywood movie name'))
     await placeholdertext.fill('Transformers')
@@ -62,7 +62,7 @@ TC03: Verify keyboard tab triggers focus change after append
 
 test('TC03: Verify keyboard tab triggers focus change after append', async({page})=>{
 
-   
+    // Locate the append input and the next focusable element.
     const inputfield = page.locator('input[id=appendText]')
     const nextelement =page.locator('input[id=insideText]')
     await inputfield.click()
@@ -84,7 +84,7 @@ TC04: Verify appended text value is retained in the field
 
 test('TC04: Verify appended text value is retained in the field', async({page})=>{
 
-   
+    // Locate the append input using its test id.
     const inputfield = page.getByTestId('input-append-text')
     // const val= await inputfield.inputValue()
     expect(inputfield).toHaveValue('I am good')
@@ -104,7 +104,7 @@ TC05: Verify text present inside input field matches expected value
  */
 test('TC05: Verify text present inside input field matches expected value', async({page})=>{
 
-   
+    // Locate the verify-text input field.
     const inputfield = page.getByTestId('input-verify-text')
     const value = await inputfield.inputValue()
     console.log(value)
@@ -120,7 +120,7 @@ TC06: Verify getAttribute returns the correct input value
 */
 test('TC06: Verify getAttribute returns the correct input value', async({page})=>{
 
-   
+    // Locate the input field for the getAttribute value check.
     const inputfield = page.locator('input[id=insideText]')
     const value = await inputfield.getAttribute('value')
     expect(value).toContain('QA PlayGround')// GenericAssertions
@@ -137,7 +137,7 @@ TC07: Verify input field text can be cleared successfully
  */
 test('TC07: Verify input field text can be cleared successfully', async({page})=>{
 
-   
+    // Locate the clear text input field.
     const inputfield = page.getByTestId('input-clear-text')
     expect(inputfield).toHaveValue('QA PlayGround Clear Me')
     await inputfield.fill('')
@@ -155,7 +155,7 @@ TC08: Verify field is empty after executing clear action
 
 test('TC08: Verify field is empty after executing clear action', async({page})=>{
 
-   
+    // Locate the clear text input by id.
     const inputfield = page.locator('input[id=clearText]')
     await inputfield.fill('')
     const attri = await inputfield.getAttribute('value')
@@ -178,7 +178,7 @@ TC09: Verify disabled input field cannot be edited by user
  */
 test('TC09: Verify disabled input field cannot be edited by user', async({page})=>{
 
-   
+    // Locate the disabled input field.
     const inputfield = page.locator('input[data-testid=input-disabled]')
     expect(inputfield).toBeDisabled()
     const value = await inputfield.getAttribute('value')
@@ -194,7 +194,7 @@ TC10: Verify isEnabled() returns false for disabled input
  */
 test('TC10: Verify isEnabled() returns false for disabled input', async({page})=>{
 
-   
+    // Locate the disabled input field for the enabled-state check.
     const inputfield = page.locator('input[data-testid=input-disabled]')
     await expect(inputfield).toBeDisabled()
 })
@@ -208,7 +208,7 @@ TC11: Verify readonly input field does not accept user typing
  */
 test('TC11: Verify readonly input field does not accept user typing', async({page})=>{
 
-   
+    // Locate the readonly input field.
     const inputfield = page.locator('input[data-testid=input-readonly]')
     await expect(inputfield).not.toBeEditable()
     await expect(inputfield).toHaveValue('This text is readonly')
@@ -228,7 +228,7 @@ TC12: Verify getAttribute returns correct readonly attribute value
  */
 test('TC12: Verify getAttribute returns correct readonly attribute value', async({page})=>{
 
-   
+    // Locate the readonly input field for the readonly attribute check.
     const inputfield = page.locator('input[data-testid=input-readonly]')
     await inputfield.click()
     expect(await inputfield.getAttribute('readonly')).toEqual('')
@@ -242,6 +242,7 @@ test('TC1: Verify button is accessible to screen readers', async ({ page }) => {
 
     await page.goto('https://testautomationpractice.blogspot.com/')
 
+    // Locate all checkbox inputs on the page.
     const locator = page.locator("//input[contains(@class,'form-check-input') and @type='checkbox']")
     const length=await locator.count()
 
