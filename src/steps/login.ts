@@ -23,11 +23,13 @@ export class LoginPageCases {
 
     private async login(username: string, password: string) {
         await this.loginPage.userName.fill(username);
+        await this.loginPage.password.waitFor({ state: 'visible' });
         await this.loginPage.password.fill(password);
     }
 
     // -------------------- Assertions --------------------
     async togglePasswordVisibility(password: string) {
+        await this.loginPage.password.waitFor({ state: 'visible' });
         await this.loginPage.password.fill(password);
         await expect(this.loginPage.password).toHaveAttribute('type', 'password');
         await this.loginPage.togglePasswordButton.click();
@@ -41,7 +43,7 @@ export class LoginPageCases {
         await expect(this.dashboardPage.badge).toHaveText('Read-only');
     }
 
-    // -------------------- Workflows --------------------
+    // -------------------- Workflows&Validations --------------------
     async successfulLogin(username: string, password: string) {
         await this.login(username, password);
         await this.loginPage.loginButton.click();
