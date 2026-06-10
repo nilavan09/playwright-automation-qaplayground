@@ -6,7 +6,7 @@ test.beforeEach('login Process', async ({ Landingpage }) => {
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 });
 
-test.afterEach('Closing Browser',async ({ page }) => {
+test.afterEach('Closing Browser', async ({ page }) => {
     await page.close();
 });
 
@@ -22,6 +22,7 @@ TC-TXN-01:Create a deposit transaction and verify balance update
 8.Assert a success toast appears and the new transaction row appears in the table
 9.Navigate back to /bank/accounts and assert Primary Savings balance increased by $500
 */
+//#region Testcase:1 
 test('TC-TXN-01:Create a deposit transaction and verify balance update', async ({ Landingpage, DashboardPage, AccountPage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.navigationToAccountPage();
@@ -44,7 +45,7 @@ TC-TXN-02:Filter transactions by account and verify only matching rows appear
 6.Assert every row in the table shows 'Primary Savings' in the Account column
 7.Click Reset: data-testid='reset-filters-button' and assert all rows return
  */
-
+//#region Testcase:2
 test('TC-TXN-02:Filter transactions by account and verify only matching rows appear', async ({ Landingpage, DashboardPage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
@@ -67,6 +68,7 @@ TC-TXN-03:Export transactions as CSV and verify file is downloaded
 5.Navigate to /bank/transactions when no transactions exist (reset data)
 6.Click Export and assert a toast error 'No transactions to export' appears
  */
+//#region Testcase:3
 test('TC-TXN-03:Export transactions as CSV and verify file is downloaded', async ({ Landingpage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
@@ -84,7 +86,7 @@ TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navi
 6.Click the Back button: data-testid='back-button'
 7.Assert the browser navigates back to /bank/transactions
  */
-
+//#region Testcase:4
 test('TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navigation', async ({ Landingpage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
