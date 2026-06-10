@@ -21,6 +21,7 @@ TC-DASH-01:Skeleton loading state appears on page load then data renders
 6.Assert data-testid='accounts-count-card' is visible with a numeric value
 7.Assert data-testid='transactions-count-card' is visible with a numeric value
  */
+//#region Testcase:1 
 test('TC-DASH-01:Skeleton loading state appears on page load then data renders', async ({ Landingpage, DashboardPage, AccountPage }) => {
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.containerAssertion();
@@ -39,6 +40,7 @@ TC-DASH-02:Stat card values match actual account and transaction data
 6.Read data-testid='accounts-count' and assert it equals the number of account rows in /bank/accounts
 */;
 
+//#region Testcase:2
 test('TC-DASH-02:Stat card values match actual account and transaction data', async ({ Landingpage, DashboardPage, AccountPage }) => {
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await AccountPage.dashboardAccountsCount();
@@ -60,6 +62,7 @@ TC-DASH-03:Quick Actions navigate to correct pages
 6.Assert URL is /bank/transactions and the New Transaction modal is open
  */
 
+//#region Testcase:3
 test('TC-DASH-03:Quick Actions navigate to correct pages', async ({ Landingpage, DashboardPage }) => {
     ///await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.addAccountAndVerifyNavigation();
@@ -78,6 +81,7 @@ TC-DASH-04:Recent Transactions table shows up to 5 latest transactions
 5.Assert the status badge in each row shows 'Completed'
  */
 
+//#region Testcase:4
 test('TC-DASH-04:Recent Transactions table shows up to 5 latest transactions', async ({ Landingpage, DashboardPage }) => {
 
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
@@ -98,6 +102,7 @@ TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder
 7.Reload the page and assert the reordered position is preserved (persisted in localStorage)
  */
 
+//#region Testcase:5
 test('TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder', async ({ Landingpage, DashboardPage }) => {
 
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);

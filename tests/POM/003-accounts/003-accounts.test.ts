@@ -20,7 +20,7 @@ TC-ACC-01:Create a new account using the 3-step Open Account wizard
 5.Click the Save Account Button and assert the toast message.
 7.Verify that total accounts count on account page.
 */
-
+//#region Testcase:1    
 test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage,page }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await DashboardPage.addAccountAndVerifyNavigation();
@@ -39,6 +39,7 @@ TC-ACC-02:Edit account name inline by double-clicking the name cell
 4.Save the account after edit.
 5.Assert the toast message after save.
  */
+//#region Testcase:2
 test('TC-ACC-02:Edit account name inline by double-clicking the name cell', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
@@ -53,6 +54,7 @@ TC-ACC-03:Delete an account with confirmation and verify it is removed
 3.Confirm the delete by clicking yes button.
 4.Assert the toast message after save.
  */
+//#region Testcase:3
 test('TC-ACC-03:Delete an account with confirmation and verify it is removed', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
@@ -72,6 +74,7 @@ TC-ACC-04:Filter accounts by account type
 7.Click Reset Filters: data-testid='reset-filters-button'
 8.Assert the row count returns to the original total
  */
+//#region Testcase:4 
 test('TC-ACC-04:Filter accounts by account type', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
@@ -94,6 +97,7 @@ TC-ACC-05:Sort accounts by Balance column header (ascending → descending → n
 7.Click the Balance header a third time
 8.Assert data-sort-direction='none' — rows return to default sort order
  */
+//#region Testcase:5
 test('TC-ACC-05:Sort accounts by Balance column header (ascending → descending → none)', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();

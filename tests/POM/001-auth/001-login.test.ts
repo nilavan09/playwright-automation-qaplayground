@@ -3,7 +3,8 @@ import { test } from '../../../fixtures/flows.fixture'
 import { roles } from '../../../roles/roles'
 
 test.afterEach('Closing Browser',async ({ page }) => {
-    await page.close();});
+    await page.close();
+});
 
 /**
 TC-LOGIN-01:Successful login with admin credentials
@@ -16,6 +17,7 @@ TC-LOGIN-01:Successful login with admin credentials
 7.Assert the browser redirects to /bank/dashboard
 8.Assert the element data-testid='page-title' has text 'Dashboard'
  */
+//#region Testcase:1 
 test('TC-LOGIN-01:Successful login with admin credentials', async ({ Landingpage }) => {
 
 
@@ -31,6 +33,7 @@ TC-LOGIN-02:Failed login shows error alert for invalid credentials
 5.Assert the alert text contains 'Invalid username or password'
 6.Assert the current URL is still /bank (no redirect)
  */
+//#region Testcase:2 
 test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async ({ Landingpage }) => {
 
 
@@ -48,6 +51,7 @@ test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async
 7.Assert the input type attribute reverts to 'password'
  */
 
+//#region Testcase:3
 test('TC-LOGIN-03:Toggle password visibility hides and reveals password text', async ({ Landingpage }) => {
 
 
@@ -63,6 +67,7 @@ TC-LOGIN-04:Pressing Enter in the password field submits the login form
 4.Press the Enter key while the password field is focused
 5.Assert the browser redirects to /bank/dashboard without clicking the Login button
  */
+//#region Testcase:4
 test('TC-LOGIN-04:Pressing Enter in the password field submits the login form', async ({ Landingpage }) => {
 
 
@@ -80,6 +85,7 @@ TC-LOGIN-05:Read-only viewer login grants restricted access
 6.Assert the role indicator: data-testid='role-indicator' contains 'Read-only Viewer'
 7.Navigate to /bank/accounts and assert the Add New Account button is NOT present
  */
+//#region Testcase:5
 test('TC-LOGIN-05:Read-only viewer login grants restricted access', async ({ Landingpage }) => {
 
     await Landingpage.successfulLogin(roles.readonly.username, roles.readonly.password);
