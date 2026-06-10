@@ -1,6 +1,7 @@
 //import { expect, test } from '@playwright/test'
 import { test } from '../../../fixtures/flows.fixture'
-import { adminpassword, adminusername, readonlyusername, readonlypassword } from '../../../roles/roles'
+import { roles } from '../../../roles/roles'
+
 
 
 /**
@@ -17,7 +18,7 @@ TC-LOGIN-01:Successful login with admin credentials
 test('TC-LOGIN-01:Successful login with admin credentials', async ({ Landingpage }) => {
 
 
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 
 });
 /**
@@ -32,7 +33,7 @@ TC-LOGIN-02:Failed login shows error alert for invalid credentials
 test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async ({ Landingpage }) => {
 
 
-    await Landingpage.failedLogin(adminusername, adminpassword + "wrong");
+    await Landingpage.failedLogin(roles.admin.username, roles.admin.password + "wrong");
 
 });
 /**
@@ -49,7 +50,7 @@ test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async
 test('TC-LOGIN-03:Toggle password visibility hides and reveals password text', async ({ Landingpage }) => {
 
 
-    await Landingpage.togglePasswordVisibility(adminpassword);
+    await Landingpage.togglePasswordVisibility(roles.admin.password);
 
 });
 
@@ -64,7 +65,7 @@ TC-LOGIN-04:Pressing Enter in the password field submits the login form
 test('TC-LOGIN-04:Pressing Enter in the password field submits the login form', async ({ Landingpage }) => {
 
 
-    await Landingpage.withEnterButton(adminusername, adminpassword);
+    await Landingpage.withEnterButton(roles.admin.username, roles.admin.password);
 
 
 });
@@ -80,5 +81,5 @@ TC-LOGIN-05:Read-only viewer login grants restricted access
  */
 test('TC-LOGIN-05:Read-only viewer login grants restricted access', async ({ Landingpage }) => {
 
-    await Landingpage.successfulLogin(readonlyusername, readonlypassword);
+    await Landingpage.successfulLogin(roles.readonly.username, roles.readonly.password);
 });

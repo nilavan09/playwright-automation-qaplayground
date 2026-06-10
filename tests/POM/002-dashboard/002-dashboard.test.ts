@@ -1,7 +1,11 @@
 // import { expect, test } from '@playwright/test'
 import { test, expect } from '../../../fixtures/flows.fixture'
-import { adminpassword, adminusername } from '../../../roles/roles'
+import { roles } from '../../../roles/roles'
 
+
+test.beforeEach('login Process', async ({ Landingpage }) => {
+    await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
+});
 /**
 TC-DASH-01:Skeleton loading state appears on page load then data renders
 1.Navigate to /bank/dashboard (must be logged in)
@@ -12,8 +16,8 @@ TC-DASH-01:Skeleton loading state appears on page load then data renders
 6.Assert data-testid='accounts-count-card' is visible with a numeric value
 7.Assert data-testid='transactions-count-card' is visible with a numeric value
  */
-test('TC-LOGIN-01:Successful login with admin credentials', async ({ Landingpage, DashboardPage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+test('TC-DASH-01:Skeleton loading state appears on page load then data renders', async ({ Landingpage, DashboardPage, AccountPage }) => {
+    //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.containerAssertion();
     await DashboardPage.checkBalance();
     await DashboardPage.accountCheck();
@@ -31,7 +35,7 @@ TC-DASH-02:Stat card values match actual account and transaction data
 */;
 
 test('TC-DASH-02:Stat card values match actual account and transaction data', async ({ Landingpage, DashboardPage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await AccountPage.dashboardAccountsCount();
     await AccountPage.navigationToAccountPage();
     await AccountPage.accountRowCount();
@@ -52,7 +56,7 @@ TC-DASH-03:Quick Actions navigate to correct pages
  */
 
 test('TC-DASH-03:Quick Actions navigate to correct pages', async ({ Landingpage, DashboardPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    ///await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.addAccountAndVerifyNavigation();
     await DashboardPage.clickOnDashboard();
     await DashboardPage.addNewTransactionAndVerify();
@@ -71,7 +75,7 @@ TC-DASH-04:Recent Transactions table shows up to 5 latest transactions
 
 test('TC-DASH-04:Recent Transactions table shows up to 5 latest transactions', async ({ Landingpage, DashboardPage }) => {
 
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.containerAssertion();
     await DashboardPage.rowsInRecentTransaction();
     await DashboardPage.rowsAssertion();
@@ -91,7 +95,7 @@ TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder
 
 test('TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder', async ({ Landingpage, DashboardPage }) => {
 
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.pinnedAccountAssertion();
     await DashboardPage.dragAndDrop();
     await DashboardPage.localStorageAssertion();

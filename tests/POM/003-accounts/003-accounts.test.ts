@@ -1,6 +1,6 @@
 // import { expect, test } from '@playwright/test'
 import { test, expect } from '../../../fixtures/flows.fixture'
-import { adminpassword, adminusername } from '../../../roles/roles'
+//import { adminpassword, adminusername } from '../../../roles/roles'
 
 /**
 TC-ACC-01:Create a new account using the 3-step Open Account wizard
@@ -11,8 +11,9 @@ TC-ACC-01:Create a new account using the 3-step Open Account wizard
 5.Click the Save Account Button and assert the toast message.
 7.Verify that total accounts count on account page.
 */
-test('TC-ACC-01:Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+
+test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage,page }) => {
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await DashboardPage.addAccountAndVerifyNavigation();
     await AccountPage.fillAllFields('001-Test Account', '1000');
     await AccountPage.assertFilledFields();
@@ -30,7 +31,7 @@ TC-ACC-02:Edit account name inline by double-clicking the name cell
 5.Assert the toast message after save.
  */
 test('TC-ACC-02:Edit account name inline by double-clicking the name cell', async ({ Landingpage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.editButtonAccount();
     await AccountPage.editValuesAndSave();
@@ -44,7 +45,7 @@ TC-ACC-03:Delete an account with confirmation and verify it is removed
 4.Assert the toast message after save.
  */
 test('TC-ACC-03:Delete an account with confirmation and verify it is removed', async ({ Landingpage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.deleteAccount()
     await AccountPage.confirmDeleteAndAssert()
@@ -63,7 +64,7 @@ TC-ACC-04:Filter accounts by account type
 8.Assert the row count returns to the original total
  */
 test('TC-ACC-04:Filter accounts by account type', async ({ Landingpage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.accountRowCount()
     await AccountPage.filterAccount();
@@ -85,7 +86,7 @@ TC-ACC-05:Sort accounts by Balance column header (ascending → descending → n
 8.Assert data-sort-direction='none' — rows return to default sort order
  */
 test('TC-ACC-05:Sort accounts by Balance column header (ascending → descending → none)', async ({ Landingpage, AccountPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.balanceAscending();
     await AccountPage.balanceDescending();
