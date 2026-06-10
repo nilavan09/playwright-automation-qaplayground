@@ -1,5 +1,14 @@
 import { test, expect } from '../../../fixtures/flows.fixture'
-//import { adminpassword, adminusername } from '../../../roles/roles'
+import { roles } from '../../../roles/roles'
+
+
+test.beforeEach('login Process', async ({ Landingpage }) => {
+    await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
+});
+
+test.afterEach('Closing Browser',async ({ page }) => {
+    await page.close();
+});
 
 /**
 TC-TXN-01:Create a deposit transaction and verify balance update
