@@ -6,6 +6,11 @@ import { roles } from '../../../roles/roles'
 test.beforeEach('login Process', async ({ Landingpage }) => {
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 });
+
+test.afterEach('Closing Browser',async ({ page }) => {
+    await page.close();
+});
+
 /**
 TC-DASH-01:Skeleton loading state appears on page load then data renders
 1.Navigate to /bank/dashboard (must be logged in)

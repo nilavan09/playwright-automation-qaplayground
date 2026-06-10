@@ -1,6 +1,15 @@
 // import { expect, test } from '@playwright/test'
 import { test, expect } from '../../../fixtures/flows.fixture'
-//import { adminpassword, adminusername } from '../../../roles/roles'
+import { roles } from '../../../roles/roles'
+
+
+test.beforeEach('login Process', async ({ Landingpage }) => {
+    await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
+});
+
+test.afterEach('Closing Browser',async ({ page }) => {
+    await page.close();
+});
 
 /**
 TC-ACC-01:Create a new account using the 3-step Open Account wizard

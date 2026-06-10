@@ -2,7 +2,8 @@
 import { test } from '../../../fixtures/flows.fixture'
 import { roles } from '../../../roles/roles'
 
-
+test.afterEach('Closing Browser',async ({ page }) => {
+    await page.close();});
 
 /**
 TC-LOGIN-01:Successful login with admin credentials
