@@ -1,5 +1,5 @@
 import { test, expect } from '../../../fixtures/flows.fixture'
-import { adminpassword, adminusername } from '../../../roles/roles'
+//import { adminpassword, adminusername } from '../../../roles/roles'
 
 /**
 TC-TXN-01:Create a deposit transaction and verify balance update
@@ -14,7 +14,7 @@ TC-TXN-01:Create a deposit transaction and verify balance update
 9.Navigate back to /bank/accounts and assert Primary Savings balance increased by $500
 */
 test('TC-TXN-01:Create a deposit transaction and verify balance update', async ({ Landingpage, DashboardPage, AccountPage, TransactionPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.navigationToAccountPage();
     await TransactionPage.saveInitialBalance()
     await TransactionPage.navigationToTransactionPage();
@@ -37,7 +37,7 @@ TC-TXN-02:Filter transactions by account and verify only matching rows appear
  */
 
 test('TC-TXN-02:Filter transactions by account and verify only matching rows appear', async ({ Landingpage, DashboardPage, TransactionPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.saveIntialTransactionCount();
     await DashboardPage.navigateToDashboard()
@@ -59,7 +59,7 @@ TC-TXN-03:Export transactions as CSV and verify file is downloaded
 6.Click Export and assert a toast error 'No transactions to export' appears
  */
 test('TC-TXN-03:Export transactions as CSV and verify file is downloaded', async ({ Landingpage, TransactionPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.downloadAndAssertDownloaded();
 
@@ -77,7 +77,7 @@ TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navi
  */
 
 test('TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navigation', async ({ Landingpage, TransactionPage }) => {
-    await Landingpage.successfulLogin(adminusername, adminpassword);
+    //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.transactionIDLinkAndAssertions();
     await TransactionPage.navigateBackFromTransactionPage();
