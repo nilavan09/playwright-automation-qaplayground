@@ -1,7 +1,7 @@
 
 import { expect, Page } from '@playwright/test';
-import { LoginPage } from '../pages-objects/loginPage';
-import { Dashboardpage } from '../pages-objects/dashboardPage';
+import { LoginPage } from '../pageObjects/loginPage';
+import { Dashboardpage } from '../pageObjects/dashboardPage';
 import { baseBankUrl, dashboardUrl } from '../../constants/urls';
 import { invalidCredentialsMessage } from '../../constants/messages';
 
@@ -43,7 +43,7 @@ export class LoginPageCases {
         await expect(this.dashboardPage.badge).toHaveText('Read-only');
     }
 
-    
+
     // -------------------- Workflows&Validations --------------------
     async successfulLogin(username: string, password: string) {
         await this.login(username, password);

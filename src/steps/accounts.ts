@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test'
-import { Accountpage } from '../pages-objects/accountspage'
-import { Dashboardpage } from '../pages-objects/dashboardPage'
+import { Accountpage } from '../pageObjects/accountspage'
+import { Dashboardpage } from '../pageObjects/dashboardPage'
 import { DashboardPageCases } from './dashboard'
 import { accountsUrl } from '../../constants/urls'
 import { accountCreatedMessage, accountUpdatedMessage, accountDeletedMessage } from '../../constants/messages'
@@ -116,7 +116,7 @@ export class AccountPageCases {
         await expect(this.accountPage.balanceColumnHeader).toHaveAttribute('data-sort-direction', 'none');
     }
 
-    
+
     // -------------------- Workflows&Validations --------------------
     async navigationToAccountPage() {
         await this.accountPage.navToAccounts.click();

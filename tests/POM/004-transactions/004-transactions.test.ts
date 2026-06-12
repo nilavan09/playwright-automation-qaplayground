@@ -6,9 +6,9 @@ test.beforeEach('login Process', async ({ Landingpage }) => {
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 });
 
-test.afterEach('Closing Browser', async ({ page }) => {
-    await page.close();
-});
+// test.afterEach('Closing Browser', async ({ page }) => {
+//     await page.close();
+// });
 
 /**
 TC-TXN-01:Create a deposit transaction and verify balance update
@@ -49,7 +49,7 @@ TC-TXN-02:Filter transactions by account and verify only matching rows appear
 test('TC-TXN-02:Filter transactions by account and verify only matching rows appear', async ({ Landingpage, DashboardPage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
-    await TransactionPage.saveIntialTransactionCount();
+    await TransactionPage.saveInitialTransactionCount();
     await DashboardPage.navigateToDashboard()
     await DashboardPage.addNewTransactionAndVerify()
     await TransactionPage.fillTransactionForm()

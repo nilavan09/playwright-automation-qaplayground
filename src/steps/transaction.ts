@@ -1,8 +1,9 @@
 import { expect, Page } from '@playwright/test';
-import { TransactionPage } from '../pages-objects/transactionpage'
-import { Accountpage } from '../pages-objects/accountspage'
+import { TransactionPage } from '../pageObjects/transactionpage'
+import { Accountpage } from '../pageObjects/accountspage'
 import { transactionsUrl } from '../../constants/urls'
 import { transactionsExportedMessage } from '../../constants/messages'
+import { FileUtils } from '../../utils/fileUtils';
 
 export class TransactionPageCases {
 
@@ -11,7 +12,7 @@ export class TransactionPageCases {
     readonly AccountpageLocators: Accountpage;
 
     initialBalance: number = 0;
-    intialRowCount: number = 0;
+    initialRowCount: number = 0;
 
     constructor(page: Page) {
         this.page = page;
@@ -65,16 +66,16 @@ export class TransactionPageCases {
         return transactionCount;
     }
 
-    async saveIntialTransactionCount() {
-        this.intialRowCount = await this.transactionCount();
-        console.log(this.intialRowCount);
+    async saveInitialTransactionCount() {
+        this.initialRowCount = await this.transactionCount();
+        console.log(this.initialRowCount);
     }
 
     async filterAssertionAfterReset() {
         await this.page.waitForTimeout(200)
         const afterAdddingAccount = await this.transactionCount();
         console.log(afterAdddingAccount);
-        expect(this.intialRowCount).not.toBe(afterAdddingAccount);
+        expect(this.initialRowCount).not.toBe(afterAdddingAccount);
     }
 
     // -------------------- Workflows & Validations --------------------
@@ -86,14 +87,17 @@ export class TransactionPageCases {
 
 
     async downloadAndAssertDownloaded() {
-        const downloadPromise = this.page.waitForEvent('download');
-        await this.transactionPage.exportExcel.click();
+        const [download] = await Promise.all([
+            this.page.waitForEvent('download'),
+            this.transactionPage.exportExcel.click()
+        ]);
         await expect(this.transactionPage.transactionToast).toHaveText(transactionsExportedMessage);
-        const download = await downloadPromise;
-        const fileName = download.suggestedFilename();
-        expect(fileName).toMatch(/\.csv$/);
-        console.log('Downloaded file:', fileName);
+        await FileUtils.validateDownload(download, 'csv');
+        
+
     }
+
+
 
     async transactionIDLinkAndAssertions() {
         await this.transactionPage.transactionID.first().click()

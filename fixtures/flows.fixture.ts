@@ -29,8 +29,8 @@ export const test = base.extend<FlowFixtures>({
     },
 
     TransactionPage: async ({ page }, use) => {
-        const tx = new TransactionPageCases(page);
-        await use(tx);
+        const transaction = new TransactionPageCases(page);
+        await use(transaction);
     }
 });
 
