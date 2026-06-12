@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test'
-import { Dashboardpage } from '../pages-objects/dashboardPage'
-import { Accountpage } from '../pages-objects/accountspage'
+import { Dashboardpage } from '../pageObjects/dashboardPage'
+import { Accountpage } from '../pageObjects/accountspage'
 import { addAccountUrl, dashboardUrl, newTransactionUrl } from '../../constants/urls'
 
 export class DashboardPageCases {
@@ -99,7 +99,7 @@ export class DashboardPageCases {
         expect(beforeStorage).toEqual(afterStorage);
     }
 
-    
+
     // -------------------- Workflows&Validations --------------------
     async addAccountAndVerifyNavigation() {
         await this.dashboardPage.addAccountButton.click();
