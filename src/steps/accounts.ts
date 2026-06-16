@@ -4,6 +4,7 @@ import { Dashboardpage } from '../pageObjects/dashboardPage'
 import { DashboardPageCases } from './dashboard'
 import { accountsUrl } from '../constants/urls'
 import { accountCreatedMessage, accountUpdatedMessage, accountDeletedMessage } from '../constants/messages'
+import {accountData} from '../data/accountData'
 import { table } from 'node:console'
 
 export class AccountPageCases {
@@ -67,9 +68,9 @@ export class AccountPageCases {
     }
 
     async assertFilledFields() {
-        await expect(this.accountPage.accountNameInput).toHaveValue('001-Test Account');
+        await expect(this.accountPage.accountNameInput).toHaveValue(accountData.accountName);
         await expect(this.accountPage.accountTypeDropdown).toHaveText('Savings Account');
-        await expect(this.accountPage.intialBalanceInput).toHaveValue('1000');
+        await expect(this.accountPage.intialBalanceInput).toHaveValue(accountData.initialBalance);
         await expect(this.accountPage.statusButton).toBeChecked();
     }
 
