@@ -1,4 +1,5 @@
 // import { expect, test } from '@playwright/test'
+import { accountData } from '../../src/data/accountData';
 import { test, expect } from '../../src/fixtures/flows.fixture'
 import { roles } from '../../src/roles/roles'
 
@@ -24,7 +25,7 @@ TC-ACC-01:Create a new account using the 3-step Open Account wizard
 test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage, page }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await DashboardPage.addAccountAndVerifyNavigation();
-    await AccountPage.fillAllFields('001-Test Account', '1000');
+    await AccountPage.fillAllFields(accountData.accountName, accountData.initialBalance);
     await AccountPage.assertFilledFields();
     await AccountPage.ClickOnSaveAndAssert();
     await AccountPage.TotalAccountCountAssertion();
