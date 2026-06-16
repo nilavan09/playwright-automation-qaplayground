@@ -18,7 +18,7 @@ TC01: Verify a file can be selected for upload
 test('TC01: Verify a file can be selected for upload', async ({ page }) => {
     
     const uploadbutton =page.getByTestId('file-upload-input')
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(page.getByTestId('file-path-display')).toHaveText('File selected: test.txt')
 })
 
@@ -32,7 +32,7 @@ TC02: Verify selected file name is displayed after selection
 test('TC02: Verify selected file name is displayed after selection', async ({ page }) => {
     
     const uploadbutton =page.getByTestId('file-upload-input')
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
 })
 /**
@@ -46,7 +46,7 @@ test('TC03: Verify upload button is enabled after file selection', async ({ page
     
     const uploadbutton =page.getByTestId('file-upload-input')
     await expect(uploadbutton).toBeEnabled()
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(uploadbutton).toBeEnabled()
 
 })
@@ -63,7 +63,7 @@ test('TC04: Verify file upload starts on clicking upload button', async ({ page 
     
     const uploadbutton =page.getByTestId('file-upload-input')
     await expect(uploadbutton).toBeEnabled()
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(uploadbutton).toBeEnabled()
     
 })
@@ -78,7 +78,7 @@ test('TC05: Verify success message appears after upload', async ({ page }) => {
     
     const uploadbutton =page.getByTestId('file-upload-input')
     await expect(uploadbutton).toBeEnabled()
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(uploadbutton).toBeEnabled()
     await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
     
@@ -98,7 +98,7 @@ test('TC06: Verify file upload is responsive on mobile viewport', async ({ page 
 
     const uploadbutton =page.getByTestId('file-upload-input')
     await expect(uploadbutton).toBeVisible()
-    await uploadbutton.setInputFiles('./asserts/test.txt')
+    await uploadbutton.setInputFiles('src/assets/test.txt')
     await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
     
 })

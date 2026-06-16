@@ -1,15 +1,15 @@
 // import { expect, test } from '@playwright/test'
-import { test, expect } from '../../../fixtures/flows.fixture'
-import { roles } from '../../../roles/roles'
+import { test, expect } from '../../src/fixtures/flows.fixture'
+import { roles } from '../../src/roles/roles'
 
 
 test.beforeEach('login Process', async ({ Landingpage }) => {
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 });
 
-test.afterEach('Closing Browser',async ({ page }) => {
-    await page.close();
-});
+// test.afterEach('Closing Browser', async ({ page }) => {
+//     await page.close();
+// });
 
 /**
 TC-DASH-01:Skeleton loading state appears on page load then data renders

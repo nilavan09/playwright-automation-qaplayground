@@ -1,5 +1,5 @@
-import { test, expect } from '../../../fixtures/flows.fixture'
-import { roles } from '../../../roles/roles'
+import { test, expect } from '../../src/fixtures/flows.fixture'
+import { roles } from '../../src/roles/roles'
 
 
 test.beforeEach('login Process', async ({ Landingpage }) => {

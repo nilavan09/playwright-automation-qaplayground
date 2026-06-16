@@ -2,8 +2,8 @@ import { expect, Locator, Page } from '@playwright/test'
 import { Accountpage } from '../pageObjects/accountspage'
 import { Dashboardpage } from '../pageObjects/dashboardPage'
 import { DashboardPageCases } from './dashboard'
-import { accountsUrl } from '../../constants/urls'
-import { accountCreatedMessage, accountUpdatedMessage, accountDeletedMessage } from '../../constants/messages'
+import { accountsUrl } from '../constants/urls'
+import { accountCreatedMessage, accountUpdatedMessage, accountDeletedMessage } from '../constants/messages'
 import { table } from 'node:console'
 
 export class AccountPageCases {
