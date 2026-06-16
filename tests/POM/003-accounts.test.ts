@@ -1,15 +1,15 @@
 // import { expect, test } from '@playwright/test'
-import { test, expect } from '../../../fixtures/flows.fixture'
-import { roles } from '../../../roles/roles'
+import { test, expect } from '../../src/fixtures/flows.fixture'
+import { roles } from '../../src/roles/roles'
 
 
 test.beforeEach('login Process', async ({ Landingpage }) => {
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
 });
 
-test.afterEach('Closing Browser',async ({ page }) => {
-    await page.close();
-});
+// test.afterEach('Closing Browser', async ({ page }) => {
+//     await page.close();
+// });
 
 /**
 TC-ACC-01:Create a new account using the 3-step Open Account wizard
@@ -21,7 +21,7 @@ TC-ACC-01:Create a new account using the 3-step Open Account wizard
 7.Verify that total accounts count on account page.
 */
 //#region Testcase:1    
-test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage,page }) => {
+test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage, page }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await DashboardPage.addAccountAndVerifyNavigation();
     await AccountPage.fillAllFields('001-Test Account', '1000');

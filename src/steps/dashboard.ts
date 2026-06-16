@@ -1,7 +1,8 @@
 import { Page, expect } from '@playwright/test'
 import { Dashboardpage } from '../pageObjects/dashboardPage'
 import { Accountpage } from '../pageObjects/accountspage'
-import { addAccountUrl, dashboardUrl, newTransactionUrl } from '../../constants/urls'
+import { addAccountUrl, dashboardUrl, newTransactionUrl } from '../constants/urls'
+import { DateUtils } from '../utils/dateUtils';
 
 export class DashboardPageCases {
 
@@ -69,8 +70,8 @@ export class DashboardPageCases {
     }
 
     async rowsAssertion() {
-        const dateValue = (await this.dashboardPage.dateColumn.textContent())?.trim();
-        const transactionDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const dateValue = await DateUtils.getLocatorText(this.dashboardPage.dateColumn);
+        const transactionDate = DateUtils.getCurrentDate();
         expect(dateValue).toEqual(transactionDate);
 
         await expect(this.dashboardPage.typeColumn).toHaveText('💰 Deposit');

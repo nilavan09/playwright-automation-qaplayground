@@ -2,8 +2,8 @@
 import { expect, Page } from '@playwright/test';
 import { LoginPage } from '../pageObjects/loginPage';
 import { Dashboardpage } from '../pageObjects/dashboardPage';
-import { baseBankUrl, dashboardUrl } from '../../constants/urls';
-import { invalidCredentialsMessage } from '../../constants/messages';
+import { baseBankUrl, dashboardUrl } from '../constants/urls';
+import { invalidCredentialsMessage } from '../constants/messages';
 
 export class LoginPageCases {
     readonly page: Page;

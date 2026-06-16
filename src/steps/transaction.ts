@@ -1,9 +1,9 @@
 import { expect, Page } from '@playwright/test';
 import { TransactionPage } from '../pageObjects/transactionpage'
 import { Accountpage } from '../pageObjects/accountspage'
-import { transactionsUrl } from '../../constants/urls'
-import { transactionsExportedMessage } from '../../constants/messages'
-import { FileUtils } from '../../utils/fileUtils';
+import { transactionsUrl } from '../constants/urls'
+import { transactionsExportedMessage } from '../constants/messages'
+import { FileUtils } from '../utils/fileUtils'
 
 export class TransactionPageCases {
 
@@ -93,7 +93,7 @@ export class TransactionPageCases {
         ]);
         await expect(this.transactionPage.transactionToast).toHaveText(transactionsExportedMessage);
         await FileUtils.validateDownload(download, 'csv');
-        
+
 
     }
 
