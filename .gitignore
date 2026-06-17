@@ -12,9 +12,6 @@ node_modules/
 .env.local
 .env.*.local
 
-# Dependencies
-package-lock.json
-yarn.lock
 
 # Build outputs
 dist/
@@ -41,3 +38,7 @@ coverage/
 *.swp
 *.swo
 *~
+
+# Allure reports
+/allure-results/
+/allure-report/
