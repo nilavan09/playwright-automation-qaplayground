@@ -22,7 +22,7 @@ TC-DASH-01:Skeleton loading state appears on page load then data renders
 7.Assert data-testid='transactions-count-card' is visible with a numeric value
  */
 //#region Testcase:1 
-test('TC-DASH-01:Skeleton loading state appears on page load then data renders', async ({ Landingpage, DashboardPage, AccountPage }) => {
+test('TC-DASH-01:Skeleton loading state appears on page load then data renders @smoke @sanity @regression', async ({ Landingpage, DashboardPage, AccountPage }) => {
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.containerAssertion();
     await DashboardPage.checkBalance();
@@ -41,7 +41,7 @@ TC-DASH-02:Stat card values match actual account and transaction data
 */;
 
 //#region Testcase:2
-test('TC-DASH-02:Stat card values match actual account and transaction data', async ({ Landingpage, DashboardPage, AccountPage }) => {
+test('TC-DASH-02:Stat card values match actual account and transaction data @regression', async ({ Landingpage, DashboardPage, AccountPage }) => {
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await AccountPage.dashboardAccountsCount();
     await AccountPage.navigationToAccountPage();
@@ -63,7 +63,7 @@ TC-DASH-03:Quick Actions navigate to correct pages
  */
 
 //#region Testcase:3
-test('TC-DASH-03:Quick Actions navigate to correct pages', async ({ Landingpage, DashboardPage }) => {
+test('TC-DASH-03:Quick Actions navigate to correct pages @sanity @regression', async ({ Landingpage, DashboardPage }) => {
     ///await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.addAccountAndVerifyNavigation();
     await DashboardPage.clickOnDashboard();
@@ -82,7 +82,7 @@ TC-DASH-04:Recent Transactions table shows up to 5 latest transactions
  */
 
 //#region Testcase:4
-test('TC-DASH-04:Recent Transactions table shows up to 5 latest transactions', async ({ Landingpage, DashboardPage }) => {
+test('TC-DASH-04:Recent Transactions table shows up to 5 latest transactions @regression', async ({ Landingpage, DashboardPage }) => {
 
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.containerAssertion();
@@ -103,7 +103,7 @@ TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder
  */
 
 //#region Testcase:5
-test('TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder', async ({ Landingpage, DashboardPage }) => {
+test('TC-DASH-05:Pinned Accounts section supports drag-and-drop reorder @regression', async ({ Landingpage, DashboardPage }) => {
 
     //await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
     await DashboardPage.pinnedAccountAssertion();

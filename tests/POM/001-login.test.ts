@@ -18,7 +18,7 @@ TC-LOGIN-01:Successful login with admin credentials
 8.Assert the element data-testid='page-title' has text 'Dashboard'
  */
 //#region Testcase:1 
-test('TC-LOGIN-01:Successful login with admin credentials', async ({ Landingpage }) => {
+test('TC-LOGIN-01:Successful login with admin credentials @smoke @sanity @regression', async ({ Landingpage }) => {
 
 
     await Landingpage.successfulLogin(roles.admin.username, roles.admin.password);
@@ -34,7 +34,7 @@ TC-LOGIN-02:Failed login shows error alert for invalid credentials
 6.Assert the current URL is still /bank (no redirect)
  */
 //#region Testcase:2 
-test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async ({ Landingpage }) => {
+test('TC-LOGIN-02:Failed login shows error alert for invalid credentials @sanity @regression', async ({ Landingpage }) => {
 
 
     await Landingpage.failedLogin(roles.admin.username, roles.admin.password + "wrong");
@@ -52,7 +52,7 @@ test('TC-LOGIN-02:Failed login shows error alert for invalid credentials', async
  */
 
 //#region Testcase:3
-test('TC-LOGIN-03:Toggle password visibility hides and reveals password text', async ({ Landingpage }) => {
+test('TC-LOGIN-03:Toggle password visibility hides and reveals password text @regression', async ({ Landingpage }) => {
 
 
     await Landingpage.togglePasswordVisibility(roles.admin.password);
@@ -68,7 +68,7 @@ TC-LOGIN-04:Pressing Enter in the password field submits the login form
 5.Assert the browser redirects to /bank/dashboard without clicking the Login button
  */
 //#region Testcase:4
-test('TC-LOGIN-04:Pressing Enter in the password field submits the login form', async ({ Landingpage }) => {
+test('TC-LOGIN-04:Pressing Enter in the password field submits the login form @regression', async ({ Landingpage }) => {
 
 
     await Landingpage.withEnterButton(roles.admin.username, roles.admin.password);
@@ -86,7 +86,7 @@ TC-LOGIN-05:Read-only viewer login grants restricted access
 7.Navigate to /bank/accounts and assert the Add New Account button is NOT present
  */
 //#region Testcase:5
-test('TC-LOGIN-05:Read-only viewer login grants restricted access', async ({ Landingpage }) => {
+test('TC-LOGIN-05:Read-only viewer login grants restricted access @sanity @regression', async ({ Landingpage }) => {
 
     await Landingpage.successfulLogin(roles.readonly.username, roles.readonly.password);
 });

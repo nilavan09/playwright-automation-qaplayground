@@ -1,4 +1,4 @@
 export const accountData = {
-    accountName: 'Test Account',
+    accountName: '001-Test Account',
     initialBalance: '1000',
 };
