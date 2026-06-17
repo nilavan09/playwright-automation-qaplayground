@@ -23,7 +23,7 @@ TC-TXN-01:Create a deposit transaction and verify balance update
 9.Navigate back to /bank/accounts and assert Primary Savings balance increased by $500
 */
 //#region Testcase:1 
-test('TC-TXN-01:Create a deposit transaction and verify balance update', async ({ Landingpage, DashboardPage, AccountPage, TransactionPage }) => {
+test('TC-TXN-01:Create a deposit transaction and verify balance update @smoke @sanity @regression', async ({ Landingpage, DashboardPage, AccountPage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.navigationToAccountPage();
     await TransactionPage.saveInitialBalance()
@@ -46,7 +46,7 @@ TC-TXN-02:Filter transactions by account and verify only matching rows appear
 7.Click Reset: data-testid='reset-filters-button' and assert all rows return
  */
 //#region Testcase:2
-test('TC-TXN-02:Filter transactions by account and verify only matching rows appear', async ({ Landingpage, DashboardPage, TransactionPage }) => {
+test('TC-TXN-02:Filter transactions by account and verify only matching rows appear @sanity @regression', async ({ Landingpage, DashboardPage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.saveInitialTransactionCount();
@@ -69,7 +69,7 @@ TC-TXN-03:Export transactions as CSV and verify file is downloaded
 6.Click Export and assert a toast error 'No transactions to export' appears
  */
 //#region Testcase:3
-test('TC-TXN-03:Export transactions as CSV and verify file is downloaded', async ({ Landingpage, TransactionPage }) => {
+test('TC-TXN-03:Export transactions as CSV and verify file is downloaded @regression', async ({ Landingpage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.downloadAndAssertDownloaded();
@@ -87,7 +87,7 @@ TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navi
 7.Assert the browser navigates back to /bank/transactions
  */
 //#region Testcase:4
-test('TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navigation', async ({ Landingpage, TransactionPage }) => {
+test('TC-TXN-04:Open transaction detail page and verify all fields via breadcrumb navigation @regression', async ({ Landingpage, TransactionPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await TransactionPage.navigationToTransactionPage();
     await TransactionPage.transactionIDLinkAndAssertions();

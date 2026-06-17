@@ -22,7 +22,7 @@ TC-ACC-01:Create a new account using the 3-step Open Account wizard
 7.Verify that total accounts count on account page.
 */
 //#region Testcase:1    
-test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard', async ({ Landingpage, DashboardPage, AccountPage, page }) => {
+test('TC-ACC-01:11Create a new account using the 3-step Open Account wizard @smoke @sanity @regression', async ({ Landingpage, DashboardPage, AccountPage, page }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await DashboardPage.addAccountAndVerifyNavigation();
     await AccountPage.fillAllFields(accountData.accountName, accountData.initialBalance);
@@ -41,7 +41,7 @@ TC-ACC-02:Edit account name inline by double-clicking the name cell
 5.Assert the toast message after save.
  */
 //#region Testcase:2
-test('TC-ACC-02:Edit account name inline by double-clicking the name cell', async ({ Landingpage, AccountPage }) => {
+test('TC-ACC-02:Edit account name inline by double-clicking the name cell @sanity @regression', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.editButtonAccount();
@@ -56,7 +56,7 @@ TC-ACC-03:Delete an account with confirmation and verify it is removed
 4.Assert the toast message after save.
  */
 //#region Testcase:3
-test('TC-ACC-03:Delete an account with confirmation and verify it is removed', async ({ Landingpage, AccountPage }) => {
+test('TC-ACC-03:Delete an account with confirmation and verify it is removed @sanity @regression', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.deleteAccount()
@@ -76,7 +76,7 @@ TC-ACC-04:Filter accounts by account type
 8.Assert the row count returns to the original total
  */
 //#region Testcase:4 
-test('TC-ACC-04:Filter accounts by account type', async ({ Landingpage, AccountPage }) => {
+test('TC-ACC-04:Filter accounts by account type @regression', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.accountRowCount()
@@ -99,7 +99,7 @@ TC-ACC-05:Sort accounts by Balance column header (ascending → descending → n
 8.Assert data-sort-direction='none' — rows return to default sort order
  */
 //#region Testcase:5
-test('TC-ACC-05:Sort accounts by Balance column header (ascending → descending → none)', async ({ Landingpage, AccountPage }) => {
+test('TC-ACC-05:Sort accounts by Balance column header (ascending → descending → none) @regression', async ({ Landingpage, AccountPage }) => {
     //await Landingpage.successfulLogin(adminusername, adminpassword);
     await AccountPage.createAcccount();
     await AccountPage.balanceAscending();
