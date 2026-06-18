@@ -14,16 +14,22 @@ TC01: Verify successful movie name input
 5.Assert the returned value equals 'Inception'
 */
 
-test('TC01: Verify successful movie name input', async({page})=>{
+test('TC01: Verify successful movie name input', async ({ page }) => {
 
-    // Locate the movie name input field by id.
-    const inputfield = page.locator('input[id=movieName]')
-    await inputfield.fill('Fight club')
-    // const entered =await inputfield.inputValue()
-    // expect(entered).toContain('Fight club')
-    await (expect(inputfield).toHaveValue('Fight club'))
+    // Locate the movie name text field using its id attribute.
+    const inputfield = page.locator('input[id=movieName]');
 
-})
+    // Enter the movie name into the input field.
+    await inputfield.fill('Fight club');
+
+    // Retrieve the entered value and verify it contains "Fight club".
+    // const entered = await inputfield.inputValue();
+    // expect(entered).toContain('Fight club');
+
+    // Verify that the input field value exactly matches "Fight club".
+    await expect(inputfield).toHaveValue('Fight club');
+
+});
 
 /**
 TC02: Verify input placeholder disappears on typing
@@ -34,21 +40,39 @@ TC02: Verify input placeholder disappears on typing
 5.Assert the placeholder text is no longer visible
  */
 
-test('TC02: Verify input placeholder disappears on typing', async({page})=>{
+test('TC02: Verify input placeholder disappears on typing', async ({ page }) => {
 
-    // Locate the same movie name input field.
-    const placeholdertext = page.locator('input[id=movieName]')
-    await (expect(placeholdertext).toHaveAttribute('placeholder','Enter hollywood movie name'))
-    await placeholdertext.fill('Transformers')
-    await page.waitForTimeout(500)
-    expect(placeholdertext).toHaveValue('Transformers')
+    // Locate the movie name input field using its id.
+    const placeholdertext = page.locator('input[id=movieName]');
 
-    const inputvalue = await placeholdertext.inputValue()
-    console.log(inputvalue)
+    // Verify that the input field initially displays the expected placeholder text.
+    await expect(placeholdertext).toHaveAttribute(
+        'placeholder',
+        'Enter hollywood movie name'
+    );
 
-    // await page.fill('input[id=movieName]',"Batman")
-    // expect(placeholdertext).toHaveValue('Batman')
-})
+    // Enter a movie name into the input field.
+    await placeholdertext.fill('Transformers');
+
+    // Wait briefly to observe the entered value (optional).
+    await page.waitForTimeout(500);
+
+    // Verify that the input field contains the entered movie name.
+    await expect(placeholdertext).toHaveValue('Transformers');
+
+    // Retrieve the current value from the input field.
+    const inputvalue = await placeholdertext.inputValue();
+
+    // Print the entered value to the console for debugging purposes.
+    console.log(inputvalue);
+
+    // Alternative approach:
+    // Enter "Batman" into the input field.
+    // await page.fill('input[id=movieName]', 'Batman');
+
+    // Verify that the input field contains "Batman".
+    // await expect(placeholdertext).toHaveValue('Batman');
+});
 
 /**
 TC03: Verify keyboard tab triggers focus change after append
@@ -60,18 +84,28 @@ TC03: Verify keyboard tab triggers focus change after append
 6.Verify focus has shifted to the next focusable element
  */
 
-test('TC03: Verify keyboard tab triggers focus change after append', async({page})=>{
+test('TC03: Verify keyboard tab triggers focus change after append', async ({ page }) => {
 
-    // Locate the append input and the next focusable element.
-    const inputfield = page.locator('input[id=appendText]')
-    const nextelement =page.locator('input[id=insideText]')
-    await inputfield.click()
-    await inputfield.pressSequentially(' Man')
-    await inputfield.press('Tab')
-    await page.waitForTimeout(200)
-    await expect(nextelement).toBeFocused()
+    // Locate the append text input field and the next input element.
+    const inputfield = page.locator('input[id=appendText]');
+    const nextelement = page.locator('input[id=insideText]');
 
-})
+    // Click the append text field to place the cursor inside it.
+    await inputfield.click();
+
+    // Type " Man" character by character into the input field.
+    await inputfield.pressSequentially(' Man');
+
+    // Press the Tab key to move focus to the next focusable element.
+    await inputfield.press('Tab');
+
+    // Wait briefly to allow the focus transition to complete (optional).
+    await page.waitForTimeout(200);
+
+    // Verify that focus has moved to the next input field.
+    await expect(nextelement).toBeFocused();
+
+});
 
 /**
 TC04: Verify appended text value is retained in the field
@@ -82,18 +116,28 @@ TC04: Verify appended text value is retained in the field
 5.Assert the input value contains both the original and appended text
  */
 
-test('TC04: Verify appended text value is retained in the field', async({page})=>{
+test('TC04: Verify appended text value is retained in the field', async ({ page }) => {
 
-    // Locate the append input using its test id.
-    const inputfield = page.getByTestId('input-append-text')
-    // const val= await inputfield.inputValue()
-    expect(inputfield).toHaveValue('I am good')
-    await inputfield.click()
-    await inputfield.pressSequentially(' Man')
-    await page.waitForTimeout(200)
-    await expect(inputfield).toHaveValue('I am good Man')
+    // Locate the append text input field using its test id.
+    const inputfield = page.getByTestId('input-append-text');
 
-})
+    // Verify that the input field initially contains the default value.
+    // const val = await inputfield.inputValue();
+    await expect(inputfield).toHaveValue('I am good');
+
+    // Click the input field to place the cursor inside it.
+    await inputfield.click();
+
+    // Append " Man" to the existing text character by character.
+    await inputfield.pressSequentially(' Man');
+
+    // Wait briefly to observe the updated value (optional).
+    await page.waitForTimeout(200);
+
+    // Verify that the original text is retained and the new text is appended.
+    await expect(inputfield).toHaveValue('I am good Man');
+
+});
 
 /**
 TC05: Verify text present inside input field matches expected value
@@ -102,13 +146,20 @@ TC05: Verify text present inside input field matches expected value
 3.Read the current value of the input field
 4.Assert the value equals 'QA PlayGround'
  */
-test('TC05: Verify text present inside input field matches expected value', async({page})=>{
+test('TC05: Verify text present inside input field matches expected value', async ({ page }) => {
 
-    // Locate the verify-text input field.
-    const inputfield = page.getByTestId('input-verify-text')
-    const value = await inputfield.inputValue()
-    console.log(value)
-    await expect(inputfield).toHaveValue('QA PlayGround')
+    // Locate the verify-text input field using its test id.
+    const inputfield = page.getByTestId('input-verify-text');
+
+    // Retrieve the current value present in the input field.
+    const value = await inputfield.inputValue();
+
+    // Print the retrieved value to the console for debugging purposes.
+    console.log(value);
+
+    // Verify that the input field contains the expected text.
+    await expect(inputfield).toHaveValue('QA PlayGround');
+
 })
 
 /**
@@ -118,13 +169,20 @@ TC06: Verify getAttribute returns the correct input value
 3.Call getAttribute('value') on the input element
 4.Assert the returned string equals 'QA PlayGround'
 */
-test('TC06: Verify getAttribute returns the correct input value', async({page})=>{
+test('TC06: Verify getAttribute returns the correct input value', async ({ page }) => {
 
-    // Locate the input field for the getAttribute value check.
-    const inputfield = page.locator('input[id=insideText]')
-    const value = await inputfield.getAttribute('value')
-    expect(value).toContain('QA PlayGround')// GenericAssertions
-    await expect(inputfield).toHaveValue('QA PlayGround')//LocatorAssertions
+    // Locate the input field used for the value attribute check.
+    const inputfield = page.locator('input[id=insideText]');
+
+    // Retrieve the value attribute from the input field.
+    const value = await inputfield.getAttribute('value');
+
+    // Verify that the retrieved attribute value contains the expected text.
+    expect(value).toContain('QA PlayGround'); // Generic assertion
+
+    // Verify that the input field displays the expected value.
+    await expect(inputfield).toHaveValue('QA PlayGround'); // Locator assertion
+
 })
 
 /**
@@ -135,13 +193,20 @@ TC07: Verify input field text can be cleared successfully
 4.Call clear() (Selenium) or fill('') (Playwright) on the input
 5.Assert the input field is now empty
  */
-test('TC07: Verify input field text can be cleared successfully', async({page})=>{
+test('TC07: Verify input field text can be cleared successfully', async ({ page }) => {
 
-    // Locate the clear text input field.
-    const inputfield = page.getByTestId('input-clear-text')
-    expect(inputfield).toHaveValue('QA PlayGround Clear Me')
-    await inputfield.fill('')
-    await expect (inputfield).toHaveValue('')
+    // Locate the input field that contains text to be cleared.
+    const inputfield = page.getByTestId('input-clear-text');
+
+    // Verify that the input field initially contains the expected text.
+    await expect(inputfield).toHaveValue('QA PlayGround Clear Me');
+
+    // Clear the existing text from the input field.
+    await inputfield.fill('');
+
+    // Verify that the input field is empty after clearing.
+    await expect(inputfield).toHaveValue('');
+
 })
 
 /**
@@ -153,20 +218,30 @@ TC08: Verify field is empty after executing clear action
 5.Or assert inputValue() returns '' (Playwright)
  */
 
-test('TC08: Verify field is empty after executing clear action', async({page})=>{
+test('TC08: Verify field is empty after executing clear action', async ({ page }) => {
 
-    // Locate the clear text input by id.
-    const inputfield = page.locator('input[id=clearText]')
-    await inputfield.fill('')
-    const attri = await inputfield.getAttribute('value')
+    // Locate the clear text input field using its id.
+    const inputfield = page.locator('input[id=clearText]');
+
+    // Remove any existing text from the input field.
+    await inputfield.fill('');
+
+    // Retrieve the current value attribute from the input field.
+    const attri = await inputfield.getAttribute('value');
+
     /**
-     *Easy way to remember
-     Value in hand (string, number, boolean) → no await ==> generic assertion.
-     Element/locator (UI state) → use await ==> locator assertion.
+     * Easy way to remember:
+     * - Value in hand (string, number, boolean) → Generic assertion (no await).
+     * - Element/locator (UI state) → Locator assertion (use await).
      */
-    expect(attri).toEqual('')//generic assertion
-    await expect(inputfield).toHaveValue('')// locator assertion 
-})
+
+    // Verify that the retrieved attribute value is empty.
+    expect(attri).toEqual(''); // Generic assertion
+
+    // Verify that the input field itself is empty.
+    await expect(inputfield).toHaveValue(''); // Locator assertion
+
+});
 
 /**
 TC09: Verify disabled input field cannot be edited by user
@@ -176,13 +251,20 @@ TC09: Verify disabled input field cannot be edited by user
 4.Attempt to type text in the disabled field
 5.Assert the value remains 'Enter' unchanged
  */
-test('TC09: Verify disabled input field cannot be edited by user', async({page})=>{
+test('TC09: Verify disabled input field cannot be edited by user', async ({ page }) => {
 
     // Locate the disabled input field.
-    const inputfield = page.locator('input[data-testid=input-disabled]')
-    expect(inputfield).toBeDisabled()
-    const value = await inputfield.getAttribute('value')
-    expect(value).toContain('Enter')
+    const inputfield = page.locator('input[data-testid=input-disabled]');
+
+    // Verify that the input field is disabled and cannot be edited.
+    await expect(inputfield).toBeDisabled();
+
+    // Retrieve the current value attribute from the input field.
+    const value = await inputfield.getAttribute('value');
+
+    // Verify that the field contains the expected text.
+    expect(value).toContain('Enter');
+
 })
 /**
 TC10: Verify isEnabled() returns false for disabled input
@@ -192,11 +274,14 @@ TC10: Verify isEnabled() returns false for disabled input
 4.Assert the result is false
 5.Or use expect(locator).toBeDisabled() assertion (Playwright)
  */
-test('TC10: Verify isEnabled() returns false for disabled input', async({page})=>{
+test('TC10: Verify isEnabled() returns false for disabled input', async ({ page }) => {
 
-    // Locate the disabled input field for the enabled-state check.
-    const inputfield = page.locator('input[data-testid=input-disabled]')
-    await expect(inputfield).toBeDisabled()
+    // Locate the input field whose enabled state needs to be verified.
+    const inputfield = page.locator('input[data-testid=input-disabled]');
+
+    // Verify that the input field is disabled and cannot accept user input.
+    await expect(inputfield).toBeDisabled();
+
 })
 
 /**
@@ -226,29 +311,44 @@ TC12: Verify getAttribute returns correct readonly attribute value
 4.Assert the attribute is present on the element
 5.Or use expect(locator).toHaveAttribute('readonly') (Playwright)
  */
-test('TC12: Verify getAttribute returns correct readonly attribute value', async({page})=>{
+test('TC12: Verify getAttribute returns correct readonly attribute value', async ({ page }) => {
 
-    // Locate the readonly input field for the readonly attribute check.
-    const inputfield = page.locator('input[data-testid=input-readonly]')
-    await inputfield.click()
-    expect(await inputfield.getAttribute('readonly')).toEqual('')
-    await expect(inputfield).toHaveAttribute('readonly')
+    // Locate the readonly input field for attribute validation.
+    const inputfield = page.locator('input[data-testid=input-readonly]');
 
+    // Click the field to ensure it is accessible for interaction.
+    await inputfield.click();
+
+    // Retrieve the readonly attribute value and verify that it is present.
+    expect(await inputfield.getAttribute('readonly')).toEqual(''); // Generic assertion
+
+    // Verify that the input field has the readonly attribute.
+    await expect(inputfield).toHaveAttribute('readonly'); // Locator assertion
 
 })
 
 //check box testcase- for reference
-test('TC1: Verify button is accessible to screen readers', async ({ page }) => {
+test('TC13: Verify button is accessible to screen readers', async ({ page }) => {
 
-    await page.goto('https://testautomationpractice.blogspot.com/')
+    // Navigate to the application under test.
+    await page.goto('https://testautomationpractice.blogspot.com/');
 
     // Locate all checkbox inputs on the page.
-    const locator = page.locator("//input[contains(@class,'form-check-input') and @type='checkbox']")
-    const length=await locator.count()
+    const locator = page.locator("//input[contains(@class,'form-check-input') and @type='checkbox']");
 
+    // Get the total number of checkboxes found.
+    const length = await locator.count();
 
-    for(let i=0; i<length;i++){  
-    await locator.nth(i).click()
-    expect(locator.nth(i)).toBeChecked()
-   }
+    // Iterate through each checkbox.
+    for (let i = 0; i < length; i++) {
+
+        // Click the current checkbox.
+        await locator.nth(i).click();
+
+        // Verify that the clicked checkbox is selected.
+        await expect(locator.nth(i)).toBeChecked();
+
+    }
 })
+
+// Total 13 test cases are implemented for input field practice.
