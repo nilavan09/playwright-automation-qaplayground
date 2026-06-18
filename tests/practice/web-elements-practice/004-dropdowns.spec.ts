@@ -14,12 +14,19 @@ TC01: Select 'Apple' from fruit dropdown by visible text
 5.Assert the dropdown now shows 'Apple' as the selected value
 */
 
-test("TC01: Select 'Apple' from fruit dropdown by visible text", async({page})=>{
+test("TC01: Select 'Apple' from fruit dropdown by visible text", async ({ page }) => {
 
-const fruitdrop= page.getByTestId('dropdown-fruit')
-await fruitdrop.click()
-await page.getByRole('option',{name:"Apple"}).click()
-await expect(fruitdrop).toHaveText('Apple')
+    // Locate the fruit dropdown element
+    const fruitdrop = page.getByTestId('dropdown-fruit')
+
+    // Open the dropdown options
+    await fruitdrop.click()
+
+    // Select the "Apple" option from the dropdown list
+    await page.getByRole('option', { name: "Apple" }).click()
+
+    // Verify that the selected value is displayed in the dropdown
+    await expect(fruitdrop).toHaveText('Apple')
 
 })
 
@@ -32,12 +39,19 @@ TC02: Select 'India' from country dropdown by value attribute
 5.Assert the selected option text is 'India'
  */
 
-test("TC02: Select 'India' from country dropdown by value attribute", async({page})=>{
+test("TC02: Select 'India' from country dropdown by value attribute", async ({ page }) => {
 
-const countrydrop= page.getByTestId('dropdown-country')
-await countrydrop.click()
-await page.getByRole('option',{name:"India"}).click()
-await expect(countrydrop).toContainText('India')
+    // Locate the country dropdown element
+    const countrydrop = page.getByTestId('dropdown-country')
+
+    // Open the dropdown options
+    await countrydrop.click()
+
+    // Select "India" from the list of available options
+    await page.getByRole('option', { name: "India" }).click()
+
+    // Verify the dropdown now contains the selected value
+    await expect(countrydrop).toContainText('India')
 
 })
 
@@ -49,13 +63,22 @@ TC03: Verify selected value is displayed after selection
 4.Assert the result element text contains 'Banana'
  */
 
-test("TC03: Verify selected value is displayed after selection", async({page})=>{
+test("TC03: Verify selected value is displayed after selection", async ({ page }) => {
 
-const fruitdrop= page.getByTestId('dropdown-fruit')
-await fruitdrop.click()
-await page.getByRole('option',{name:"Banana"}).click()
-await expect(fruitdrop).toContainText('Banana')
-await expect(page.getByTestId('result-fruit')).toHaveText(/Selected: banana/)
+    // Locate the fruit dropdown
+    const fruitdrop = page.getByTestId('dropdown-fruit')
+
+    // Open dropdown options
+    await fruitdrop.click()
+
+    // Select "Banana" from the dropdown list
+    await page.getByRole('option', { name: "Banana" }).click()
+
+    // Verify dropdown shows selected value
+    await expect(fruitdrop).toContainText('Banana')
+
+    // Verify result text reflects the selected fruit
+    await expect(page.getByTestId('result-fruit')).toHaveText(/Selected: banana/)
 
 })
 
@@ -67,14 +90,22 @@ TC04: Get all available options from the programming language dropdown
 4.In Playwright: page.locator('#dropdown-language option').allInnerTexts()
 5.Assert the returned list contains: Python, Java, JavaScript   
  */
-test("TC04: Get all available options from the programming language dropdown", async({page})=>{
+test("TC04: Get all available options from the programming language dropdown", async ({ page }) => {
 
-const language= page.getByTestId('dropdown-language')
-await language.click()
-// await page.getByRole('option',{name:'Python'}).click()
-const optionLocator =await page.getByRole('option').allInnerTexts()
-console.log(optionLocator)
-expect(optionLocator).toEqual(["Python", "Java", "JavaScript"])
+    // Locate the language dropdown
+    const language = page.getByTestId('dropdown-language')
+
+    // Open the dropdown to display all options
+    await language.click()
+
+    // Get all dropdown option texts
+    const optionLocator = await page.getByRole('option').allInnerTexts()
+
+    // Log options for debugging
+    console.log(optionLocator)
+
+    // Verify all expected programming language options are present
+    expect(optionLocator).toEqual(["Python", "Java", "JavaScript"])
 
 })
 
@@ -87,12 +118,20 @@ TC05: Select the last option from the programming language dropdown
 5.Assert the last option ('JavaScript') is now selected
  */
 
-test("TC05: Select the last option from the programming language dropdown", async({page})=>{
+test("TC05: Select the last option from the programming language dropdown", async ({ page }) => {
 
-const language= page.getByTestId('dropdown-language')
-await language.click()
-await page.getByRole('option').last().click()
-await expect(language).toHaveText('JavaScript')
+    // Locate the programming language dropdown
+    const language = page.getByTestId('dropdown-language')
+
+    // Open the dropdown options
+    await language.click()
+
+    // Select the last option from the dropdown list
+    await page.getByRole('option').last().click()
+
+    // Verify the selected value is displayed in the dropdown
+    await expect(language).toHaveText('JavaScript')
+
 })
 
 /**
@@ -103,21 +142,25 @@ TC06: Multi-select: select multiple superheroes using CTRL+click
 4.In Playwright: page.selectOption('#dropdown-heroes', ['ant-man', 'batman'])
 5.Assert getAllSelectedOptions() returns 2 items: Ant-Man and Batman
  */
-test("TC06: Multi-select: select multiple superheroes using CTRL+click", async({page})=>{
+test("TC06: Multi-select: select multiple superheroes using CTRL+click", async ({ page }) => {
 
-const heroes = page.getByTestId('dropdown-heroes');
+    // Locate the multi-select dropdown for heroes
+    const heroes = page.getByTestId('dropdown-heroes');
 
-  await heroes.selectOption([
-    { label: 'Ant-Man' },
-    { label: 'Aquaman' },
-    { label: 'Batman' }
-  ]);
+    // Select multiple options using Playwright's selectOption
+    await heroes.selectOption([
+        { label: 'Ant-Man' },
+        { label: 'Aquaman' },
+        { label: 'Batman' }
+    ]);
 
-  const selected = await heroes.evaluate((el: HTMLSelectElement) =>
-    Array.from(el.selectedOptions).map(o => o.textContent?.trim())
-  );
+    // Extract all selected options from the DOM
+    const selected = await heroes.evaluate((el: HTMLSelectElement) =>
+        Array.from(el.selectedOptions).map(o => o.textContent?.trim())
+    );
 
-  expect(selected).toEqual(['Ant-Man', 'Aquaman', 'Batman']);
+    // Verify selected options match expected list
+    expect(selected).toEqual(['Ant-Man', 'Aquaman', 'Batman']);
 
 })
 
@@ -129,15 +172,24 @@ TC07: Multi-select: deselect a previously selected option
 4.In Playwright: hold Ctrl and click 'Ant-Man' again to deselect, or re-selectOption with only 'aquaman'
 5.Assert getAllSelectedOptions() now contains only 'Aquaman'
  */
-test("TC07: Multi-select: deselect a previously selected option", async({page})=>{
+test("TC07: Multi-select: deselect a previously selected option", async ({ page }) => {
 
-const heros= page.getByTestId('dropdown-heroes')
-await heros.selectOption(['Ant-Man','Aquaman'])
-await heros.selectOption(['Aquaman'])
+    // Locate the multi-select dropdown for heroes
+    const heros = page.getByTestId('dropdown-heroes')
 
-expect(
-    await heros.evaluate((el:HTMLSelectElement)=>Array.from(el.selectedOptions).map(o=>o.textContent?.trim()))
-).toEqual(['Aquaman'])
+    // Select multiple options first
+    await heros.selectOption(['Ant-Man', 'Aquaman'])
+
+    // Deselect "Ant-Man" by selecting only "Aquaman"
+    await heros.selectOption(['Aquaman'])
+
+    // Get all currently selected options from the dropdown
+    const selected = await heros.evaluate((el: HTMLSelectElement) =>
+        Array.from(el.selectedOptions).map(o => o.textContent?.trim())
+    )
+
+    // Verify only "Aquaman" remains selected
+    expect(selected).toEqual(['Aquaman'])
 
 })
 
@@ -148,10 +200,13 @@ TC08: Verify default placeholder text before any selection
 3.Assert the trigger/placeholder text reads 'Select Fruit'
 4.In Playwright: await expect(page.locator('[data-testid="dropdown-fruit"]')).toHaveText('Select Fruit')
  */
-test("TC08: Verify default placeholder text before any selection", async({page})=>{
+test("TC08: Verify default placeholder text before any selection", async ({ page }) => {
 
-const fruitdrop= page.getByTestId('dropdown-fruit')
-await expect(fruitdrop).toHaveText('Select Fruit')
+    // Locate the fruit dropdown
+    const fruitdrop = page.getByTestId('dropdown-fruit')
+
+    // Verify default placeholder text is shown before any selection
+    await expect(fruitdrop).toHaveText('Select Fruit')
 
 })
 /**
@@ -162,13 +217,22 @@ TC09: Verify a dropdown is enabled and interactable
 4.In Playwright: assert await page.isDisabled('[data-testid="dropdown-country"]') returns false
 5.Attempt to select an option and assert it succeeds without error
  */
-test("TC09: Verify a dropdown is enabled and interactable", async({page})=>{
+test("TC09: Verify a dropdown is enabled and interactable", async ({ page }) => {
 
-const countrydrop= page.getByTestId('dropdown-country')
-await expect(countrydrop).toBeEnabled()
-await countrydrop.click()
-await page.getByRole('option',{name:'India'}).click()
-await expect(countrydrop).toHaveText('India')
+    // Locate the country dropdown
+    const countrydrop = page.getByTestId('dropdown-country')
+
+    // Verify the dropdown is enabled and can be interacted with
+    await expect(countrydrop).toBeEnabled()
+
+    // Open the dropdown options
+    await countrydrop.click()
+
+    // Select "India" from the dropdown list
+    await page.getByRole('option', { name: 'India' }).click()
+
+    // Verify the selected value is displayed in the dropdown
+    await expect(countrydrop).toHaveText('India')
 
 })
 
@@ -181,14 +245,24 @@ TC10: Verify the total count of options in the country dropdown
 5.Assert all four country names are present: India, USA, UK, Argentina
  */
 
-test("TC10: Verify the total count of options in the country dropdown", async({page})=>{
+test("TC10: Verify the total count of options in the country dropdown", async ({ page }) => {
 
-const countrydrop= page.getByTestId('dropdown-country')
-await countrydrop.click()
-await expect(page.getByRole('option')).toHaveCount(4)
-const valueofdrop=await  page.getByRole('option').allTextContents()
-expect(valueofdrop).toEqual(["India", "USA", "UK", "Argentina"])
-console.log(valueofdrop)
+    // Locate the country dropdown
+    const countrydrop = page.getByTestId('dropdown-country')
 
+    // Open the dropdown to reveal all available options
+    await countrydrop.click()
+
+    // Verify total number of options in the dropdown is 4
+    await expect(page.getByRole('option')).toHaveCount(4)
+
+    // Fetch all option texts from the dropdown
+    const valueofdrop = await page.getByRole('option').allTextContents()
+
+    // Verify all expected country options are present in correct order
+    expect(valueofdrop).toEqual(["India", "USA", "UK", "Argentina"])
+
+    // Log the dropdown values for debugging purposes
+    console.log(valueofdrop)
 
 })
