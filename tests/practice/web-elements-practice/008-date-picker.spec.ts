@@ -14,13 +14,19 @@ TC01: Fill today's date in the date input and verify the value
 5.Assert getAttribute('value') returns '2024-03-28'
 */
 
-test('TC01: Fill today date in the date input and verify the value', async({page})=>{
+test('TC01: Fill today date in the date input and verify the value', async ({ page }) => {
 
-   const datelocator=page.getByTestId('input-today-date')
-   const todaydate = new Date().toISOString().split('T')[0]
-   await datelocator.fill(todaydate)
-   await expect(datelocator).toHaveValue(todaydate)
-   
+    // Locate the date input field
+    const datelocator = page.getByTestId('input-today-date');
+
+    // Generate today's date in YYYY-MM-DD format (ISO format required for date inputs)
+    const todaydate = new Date().toISOString().split('T')[0];
+
+    // Fill the date input with today's date
+    await datelocator.fill(todaydate);
+
+    // Verify the input value matches the expected date
+    await expect(datelocator).toHaveValue(todaydate);
 
 })
 /**
@@ -31,11 +37,17 @@ TC02: Enter a birthday date and assert the value is stored
 4.In Playwright: page.fill('#input-birthday', '1995-06-15')
 5.Assert the input value attribute equals '1995-06-15'
  */
-test('TC02: Enter a birthday date and assert the value is stored', async({page})=>{
+test('TC02: Enter a birthday date and assert the value is stored', async ({ page }) => {
 
-   const datelocator=page.getByTestId('input-birthday')
-   await datelocator.fill('2000-01-09')
-   await expect(datelocator).toHaveValue('2000-01-09')
+    // Locate the birthday date input field
+    const datelocator = page.getByTestId('input-birthday');
+
+    // Fill the input with a sample birth date
+    await datelocator.fill('2000-01-09');
+
+    // Verify the entered value is correctly stored in the input field
+    await expect(datelocator).toHaveValue('2000-01-09');
+
 })
 
 /**
@@ -46,14 +58,25 @@ TC03: Fill a date range — start date and end date
 4.Locate end date input using data-testid='input-date-end'
 5.Fill with '2024-01-31' and assert both inputs hold the correct values
  */
-test('TC03: Fill a date range — start date and end date', async({page})=>{
+test('TC03: Fill a date range — start date and end date', async ({ page }) => {
 
-   const startdatelocator=page.getByTestId('input-date-start')
-   const enddatelocator=page.getByTestId('input-date-end')
-   await startdatelocator.fill('2000-01-09')
-   await expect(startdatelocator).toHaveValue('2000-01-09')
-   await enddatelocator.fill('2100-01-09')
-   await expect(enddatelocator).toHaveValue('2100-01-09')
+    // Locate start date input field
+    const startdatelocator = page.getByTestId('input-date-start');
+
+    // Locate end date input field
+    const enddatelocator = page.getByTestId('input-date-end');
+
+    // Fill start date value
+    await startdatelocator.fill('2000-01-09');
+
+    // Verify start date is correctly set
+    await expect(startdatelocator).toHaveValue('2000-01-09');
+
+    // Fill end date value
+    await enddatelocator.fill('2100-01-09');
+
+    // Verify end date is correctly set
+    await expect(enddatelocator).toHaveValue('2100-01-09');
 
 })
 
@@ -65,16 +88,28 @@ TC04: Verify date input rejects out-of-range date (min/max constraint)
 4.In Playwright: await expect(page.locator('#input-date-restricted')).toHaveAttribute('min')
 5.Assert the input enforces the min/max boundary — value should clamp or stay invalid
  */
-test('TC04: Verify date input rejects out-of-range date (min/max constraint)', async({page})=>{
+test('TC04: Verify date input rejects out-of-range date (min/max constraint)', async ({ page }) => {
 
-   const datelocator=page.getByTestId('input-date-restricted')
-   await expect(datelocator).toHaveAttribute('min',"2024-01-01")
-   await expect(datelocator).toHaveAttribute('max',"2024-12-31")
-   await datelocator.fill('2023-01-01')
+    // Locate the restricted date input field
+    const datelocator = page.getByTestId('input-date-restricted');
 
-   //const isValid =await datelocator.evaluate((el)=>(el as HTMLInputElement).checkValidity())
-   const isValid = await datelocator.evaluate((el: HTMLInputElement) => el.checkValidity());
-   expect(isValid).toBe(false)
+    // Verify minimum allowed date attribute
+    await expect(datelocator).toHaveAttribute('min', "2024-01-01");
+
+    // Verify maximum allowed date attribute
+    await expect(datelocator).toHaveAttribute('max', "2024-12-31");
+
+    // Try to fill an out-of-range date (before min limit)
+    await datelocator.fill('2023-01-01');
+
+    // Check HTML5 validity constraint on the input field
+    const isValid = await datelocator.evaluate(
+        (el: HTMLInputElement) => el.checkValidity()
+    );
+
+    // Expect the value to be invalid due to constraint violation
+    expect(isValid).toBe(false);
+
 })
 
 /**
@@ -85,13 +120,22 @@ TC05: Clear a date input and verify it becomes empty
 4.In Selenium: element.clear() — in Playwright: page.fill('#input-today-date', '')
 5.Assert getAttribute('value') returns an empty string
  */
-test('TC05: Clear a date input and verify it becomes empty)', async({page})=>{
+test('TC05: Clear a date input and verify it becomes empty', async ({ page }) => {
 
-   const datelocator=page.getByTestId('input-today-date')
-   const todaydate = new Date().toISOString().split('T')[0]
-   await datelocator.fill(todaydate)
-   await datelocator.clear()
-   await expect(datelocator).toHaveValue('')
+    // Locate the date input field
+    const datelocator = page.getByTestId('input-today-date');
+
+    // Generate today's date in YYYY-MM-DD format
+    const todaydate = new Date().toISOString().split('T')[0];
+
+    // Fill the input with today's date
+    await datelocator.fill(todaydate);
+
+    // Clear the date input field
+    await datelocator.clear();
+
+    // Verify the input is now empty
+    await expect(datelocator).toHaveValue('');
 
 })
 
