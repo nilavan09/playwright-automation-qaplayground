@@ -14,10 +14,16 @@ TC01: Verify link navigates to the correct URL on click
  */
 
 test('TC01: Verify link navigates to the correct URL on click', async ({ page }) => {
- 
-    const link = page.getByTestId('link-internal-home')
-    await link.click()
-    await expect(page).toHaveURL('https://www.qaplayground.com/')
+
+    // Locate the internal home link
+    const link = page.getByTestId('link-internal-home');
+
+    // Click the link to trigger navigation
+    await link.click();
+
+    // Verify the page navigates to the expected URL
+    await expect(page).toHaveURL('https://qaplayground.com/');
+
 })
 
 /**
@@ -29,11 +35,19 @@ TC02: Verify link text matches expected label
  */
 
 test('TC02: Verify link text matches expected label', async ({ page }) => {
- 
-    const link = page.getByTestId('link-internal-home')
-    const linkvalue = await link.textContent()
-    console.log(linkvalue)
-    expect(linkvalue).toBe('Home')
+
+    // Locate the internal home link
+    const link = page.getByTestId('link-internal-home');
+
+    // Get the visible text content of the link
+    const linkvalue = await link.textContent();
+
+    // Log the link text for debugging
+    console.log(linkvalue);
+
+    // Verify the link text matches expected label
+    expect(linkvalue).toBe('Home');
+
 })
 
 /**
@@ -44,19 +58,29 @@ TC03: Verify external link opens in a new tab
 4.Click the link and switch to the new window handle
 5.Assert the new tab URL matches the expected external URL
  */
-test('TC03: Verify external link opens in a new tab', async ({ page,context }) => {
- 
-    const link = page.getByTestId('link-image-ironman')
-    await expect(link).toHaveAttribute('target','_blank')
-    await expect(link).toHaveAttribute('rel','noopener noreferrer')
-    const [newpage]=await Promise.all([
+test('TC03: Verify external link opens in a new tab', async ({ page, context }) => {
+
+    // Locate the external image link
+    const link = page.getByTestId('link-image-ironman');
+
+    // Verify link opens in a new tab
+    await expect(link).toHaveAttribute('target', '_blank');
+
+    // Verify security attributes for external link
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+
+    // Wait for a new tab to open after clicking the link
+    const [newpage] = await Promise.all([
         context.waitForEvent('page'),
-        await link.click()
+        link.click()
+    ]);
 
-    ])
-    await newpage.waitForLoadState('networkidle')
+    // Wait for the new page to fully load
+    await newpage.waitForLoadState('networkidle');
 
-    await expect(newpage).toHaveTitle('You searched for iron man - ASHISH EDITZ')
+    // Verify the new page title
+    await expect(newpage).toHaveTitle('You searched for iron man - ASHISH EDITZ');
+
 })
 /**
 TC04: Verify internal link stays in the same tab
@@ -68,15 +92,26 @@ TC04: Verify internal link stays in the same tab
 6.Assert the browser URL changed to the expected internal path
  */
 
-test('TC04: Verify internal link stays in the same tab', async ({ page,context }) => {
- 
-    const link = page.getByTestId('link-internal-about')
-    const pagesbefore=context.pages().length
-    // console.log(pagesbefore)
-    await link.click()
-    const pagesafter=context.pages().length
-    expect(pagesbefore).toBe(pagesafter)
-    await expect(page).toHaveURL('https://www.qaplayground.com/about-us')
+test('TC04: Verify internal link stays in the same tab', async ({ page, context }) => {
+
+    // Locate the internal "About" link
+    const link = page.getByTestId('link-internal-about');
+
+    // Count open pages before clicking the link
+    const pagesbefore = context.pages().length;
+
+    // Click the internal link
+    await link.click();
+
+    // Count open pages after clicking the link
+    const pagesafter = context.pages().length;
+
+    // Verify no new tab is opened
+    expect(pagesbefore).toBe(pagesafter);
+
+    // Verify navigation happened in the same tab
+    await expect(page).toHaveURL('https://qaplayground.com/about-us');
+
 })
 
 /**
@@ -87,13 +122,19 @@ TC05: Verify broken link returns HTTP error status
 4.Assert the response status is 404 or another error code
  */
 test('TC05: Verify broken link returns HTTP error status', async ({ page }) => {
- 
-    const link = page.getByTestId('link-broken-same')
-  
-    const href= await link.getAttribute('href')
-    
-    const response =await page.request.get(href!)
-    expect(response.status()).toBe(500)
+
+    // Locate the broken link element
+    const link = page.getByTestId('link-broken-same');
+
+    // Extract the href attribute from the link
+    const href = await link.getAttribute('href');
+
+    // Send an HTTP request directly to the लिंक target (without navigating UI)
+    const response = await page.request.get(href!);
+
+    // Verify the server returns an internal error status
+    expect(response.status()).toBe(500);
+
 })
 
 /**
@@ -105,21 +146,36 @@ TC06: Verify link is keyboard accessible
 5.Assert navigation occurs as expected 
  */
 test('TC06: Verify link is keyboard accessible', async ({ page }) => {
-    const link = page.getByTestId('link-internal-home')
-    await page.reload()
-    
-    for(let i=0;i<20;i++) {
-    await page.keyboard.press('Tab')
-    const isfocused = await link.evaluate(element=>document.activeElement==element)
-   
-    if (isfocused) break
 
+    // Locate the internal home link
+    const link = page.getByTestId('link-internal-home');
+
+    // Reload page to reset focus state
+    await page.reload();
+
+    // Use Tab navigation to reach the link
+    for (let i = 0; i < 20; i++) {
+
+        await page.keyboard.press('Tab');
+
+        // Check if the link is currently focused
+        const isfocused = await link.evaluate(
+            element => document.activeElement === element
+        );
+
+        // Stop tabbing once focus is on the link
+        if (isfocused) break;
     }
-    
-    await expect(link).toBeFocused()
-    await page.keyboard.press('Enter')
-    await expect(page).toHaveURL('https://www.qaplayground.com/')
-    
+
+    // Verify the link is focused (keyboard accessible)
+    await expect(link).toBeFocused();
+
+    // Activate the link using keyboard (Enter key)
+    await page.keyboard.press('Enter');
+
+    // Verify navigation to home page
+    await expect(page).toHaveURL('https://qaplayground.com/');
+
 })
 /**
 TC07: Verify link href attribute contains the correct URL
@@ -129,13 +185,16 @@ TC07: Verify link href attribute contains the correct URL
 4.Assert the value matches the expected URL or path
  */
 test('TC07: Verify link href attribute contains the correct URL', async ({ page }) => {
-    
-    const link = page.getByTestId('link-broken-same')
-  
-    const href= await link.getAttribute('href')
-    
-    expect(href).toBe('https://the-internet.herokuapp.com/status_codes/500')
-    
+
+    // Locate the broken link element
+    const link = page.getByTestId('link-broken-same');
+
+    // Get the href attribute value from the link
+    const href = await link.getAttribute('href');
+
+    // Verify the href matches the expected URL
+    expect(href).toBe('https://the-internet.herokuapp.com/status_codes/500');
+
 })
 
 /**
@@ -146,25 +205,33 @@ TC08: Verify link has accessible label for screen readers
 4.Assert no link text is ambiguous (e.g. 'click here', 'read more' alone) 
  */
 test('TC08: Verify link has accessible label for screen readers', async ({ page }) => {
-    
-    const link = page.locator('.p-6').getByRole('link')
-    const count = await link.count()
 
+    // Locate all links inside the container
+    const link = page.locator('.p-6').getByRole('link');
+    const count = await link.count();
 
-    const ambiguouswords=[
+    // List of non-descriptive link texts (bad accessibility practice)
+    const ambiguouswords = [
         'click here',
         'read more',
         'know more'
-    ]
-    
-    for(let i=0; i<count ; i++){
-        const text =(await link.nth(i).textContent())?.trim().toLowerCase() || ''
+    ];
 
-        //expect(text).toBeTruthy()
-        console.log(text)
-        expect(ambiguouswords).not.toContain(text)
+    // Iterate through all links and validate their accessible text
+    for (let i = 0; i < count; i++) {
+
+        // Get normalized link text
+        const text = (await link.nth(i).textContent())
+            ?.trim()
+            .toLowerCase() || '';
+
+        // Log text for debugging
+        console.log(text);
+
+        // Ensure link text is not vague/ambiguous for screen readers
+        expect(ambiguouswords).not.toContain(text);
     }
-    
+
 })
 
 /**
@@ -174,13 +241,16 @@ TC09: Verify link hover state is visually distinct
 3.Assert an underline or color change appears on hover
  */
 test('TC09: Verify link hover state is visually distinct', async ({ page }) => {
-    
-    const link = page.getByTestId('link-broken-same')
 
-    await link.hover()
-    
-    await expect(link).toHaveCSS('color','rgb(153, 27, 27)')
-    
+    // Locate the link to be tested
+    const link = page.getByTestId('link-broken-same');
+
+    // Hover over the link to trigger hover styles
+    await link.hover();
+
+    // Verify the link color changes on hover (visual feedback)
+    await expect(link).toHaveCSS('color', 'rgb(153, 27, 27)');
+
 })
 
 /**
@@ -192,20 +262,31 @@ TC10: Verify right-click on link shows browser context menu
 
 test('TC10: Verify link opens in new tab (context menu behavior simulated)', async ({ page, context }) => {
 
-  const link = page.getByTestId('link-internal-home');
+    // Locate the internal home link
+    const link = page.getByTestId('link-internal-home');
 
-  const href = await link.getAttribute('href');
+    // Get the href attribute of the link
+    const href = await link.getAttribute('href');
 
-  const [newPage] = await Promise.all([
-    context.waitForEvent('page'),
-    link.click({ modifiers: ['Control'] })
-  ]);
+    // Simulate opening link in a new tab using keyboard modifier (Ctrl + click)
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        link.click({ modifiers: ['Control'] })
+    ]);
 
-  await newPage.bringToFront()
-  await newPage.waitForLoadState('networkidle');
-  await page.waitForTimeout(300)
-  expect(newPage.url()).toContain(href!);
-});
+    // Bring the new tab to the foreground
+    await newPage.bringToFront();
+
+    // Wait for the new page to fully load
+    await newPage.waitForLoadState('networkidle');
+
+    // Small wait for stability (UI rendering sync)
+    await page.waitForTimeout(300);
+
+    // Verify the new tab URL contains the expected href value
+    expect(newPage.url()).toContain(href!);
+
+})
 /**
 TC11: Verify link page loads without console errors
 1.Navigate to /practice/links
@@ -215,37 +296,47 @@ TC11: Verify link page loads without console errors
  */
 
 test('TC11: Verify link page loads without console errors', async ({ page }) => {
- 
-const response =await page.goto('https://www.qaplayground.com/practice/links')
-expect(response?.status()).toBe(200)
 
-const errorslist:string[]=[]
-page.on('pageerror',pe=>{
-    errorslist.push(pe.message)
-})
-expect(errorslist.length).toBe(0)
+    // Navigate to the links practice page
+    const response = await page.goto('https://www.qaplayground.com/practice/links');
 
-const links=[
-    'link-internal-home',
-    'link-internal-about',
-    'link-external-selenium',
-    'link-external-course',
-    'link-broken-newtab',
-    'link-broken-same',
-    'link-broken-empty',
-    'link-image-broken',
-    'link-image-ironman',
-    'link-btn-broken',
-    'link-btn-broken-2',
-    'link-btn-home',
-    'link-text-garbled-1',
-    'link-text-garbled-2',
-    'link-text-long',
-    'link-text-anchor'
-]
+    // Verify page loaded successfully
+    expect(response?.status()).toBe(200);
 
-for(let link of links){
-    await expect(page.getByTestId(link)).toBeVisible()
-}
+    // Array to capture runtime JavaScript errors
+    const errorslist: string[] = [];
+
+    // Listen for page-level errors
+    page.on('pageerror', pe => {
+        errorslist.push(pe.message);
+    });
+
+    // Ensure no runtime errors occurred during initial load
+    expect(errorslist.length).toBe(0);
+
+    // List of all expected link test IDs on the page
+    const links = [
+        'link-internal-home',
+        'link-internal-about',
+        'link-external-selenium',
+        'link-external-course',
+        'link-broken-newtab',
+        'link-broken-same',
+        'link-broken-empty',
+        'link-image-broken',
+        'link-image-ironman',
+        'link-btn-broken',
+        'link-btn-broken-2',
+        'link-btn-home',
+        'link-text-garbled-1',
+        'link-text-garbled-2',
+        'link-text-long',
+        'link-text-anchor'
+    ];
+
+    // Verify all links are visible on the page
+    for (let link of links) {
+        await expect(page.getByTestId(link)).toBeVisible();
+    }
 
 })

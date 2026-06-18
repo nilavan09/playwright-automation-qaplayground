@@ -213,7 +213,7 @@ test('TC09: Verify radio buttons are keyboard navigable', async ({ page }) => {
     await page.reload();
 
     // Move focus to the radio button group using Tab navigation
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 13; i++) {
         await page.keyboard.press('Tab');
     }
 
