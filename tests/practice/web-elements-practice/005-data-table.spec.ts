@@ -16,22 +16,33 @@ TC01: Verify all table column headers are present
 
 test('TC01: Verify all table column headers are present', async ({ page }) => {
 
+    // Wait for table to load completely (not ideal, but used here for stability)
     await page.waitForTimeout(3000)
+
+    // Locate the books table
     const table = page.getByTestId('books-table')
+
+    // Get all text content inside the table (for debugging)
     const vaue = await table.allTextContents()
+
+    // Verify each column header text individually
     await expect(page.getByTestId('col-sr')).toHaveText('Sr No.')
     await expect(page.getByTestId('col-title')).toHaveText('Book Name')
     await expect(page.getByTestId('col-genre')).toHaveText('Book Genre')
     await expect(page.getByTestId('col-author')).toHaveText('Book Author')
     await expect(page.getByTestId('col-isbn')).toHaveText('Book ISBN')
     await expect(page.getByTestId('col-published')).toHaveText('Book Published')
+
+    // Log table content for debugging
     console.log(vaue)
 
-    //playwright way
-    const headers = table.getByRole('columnheader');
+    // Playwright recommended way: validate all column headers together
+    const headers = table.getByRole('columnheader')
 
-    await expect(headers).toHaveCount(6);
+    // Verify total number of headers
+    await expect(headers).toHaveCount(6)
 
+    // Verify exact header texts in order
     await expect(headers).toHaveText([
         'Sr No.',
         'Book Name',
@@ -39,8 +50,7 @@ test('TC01: Verify all table column headers are present', async ({ page }) => {
         'Book Author',
         'Book ISBN',
         'Book Published'
-    ]);
-
+    ])
 
 })
 
@@ -54,12 +64,23 @@ TC02: Count the total number of rows in the data table
  */
 test('TC02: Count the total number of rows in the data table', async ({ page }) => {
 
+    // Wait for the page to finish loading network resources
     await page.waitForLoadState('networkidle', { timeout: 60000 });
-    const table = page.getByTestId('books-table')
-    const headers = table.getByRole('row')
-    const value = await headers.count()
-    expect(value).toEqual(11)
-    console.log(value)
+
+    // Locate the books table
+    const table = page.getByTestId('books-table');
+
+    // Get all rows inside the table (including header row)
+    const headers = table.getByRole('row');
+
+    // Count total number of rows
+    const value = await headers.count();
+
+    // Verify expected number of rows in the table
+    expect(value).toEqual(11);
+
+    // Log row count for debugging
+    console.log(value);
 
 })
 
@@ -73,14 +94,33 @@ TC03: Read a cell value from a specific row and column
  */
 
 test('TC03: Read a cell value from a specific row and column', async ({ page }) => {
-    //- //tbody/tr[1]/td[1]
+
+    // Wait until the page finishes loading network requests
     await page.waitForLoadState('networkidle', { timeout: 60000 });
-    const table = page.getByTestId('books-table')
-    const value= await table.locator('tbody tr').nth(0).locator('td').nth(2).textContent()
-    expect(value).toBeTruthy()
-    expect(value?.trim().length).toBeGreaterThan(0)
-    expect(value?.trim().length).not.toBe('')
-    expect(value).not.toBeNull()
+
+    // Locate the books table
+    const table = page.getByTestId('books-table');
+
+    // Get the cell value from first row (index 0) and third column (index 2)
+    const value = await table
+        .locator('tbody tr')
+        .nth(0)
+        .locator('td')
+        .nth(2)
+        .textContent();
+
+    // Ensure value exists (not null/undefined)
+    expect(value).toBeTruthy();
+
+    // Ensure trimmed value has content
+    expect(value?.trim().length).toBeGreaterThan(0);
+
+    // Ensure value is not an empty string
+    expect(value?.trim().length).not.toBe('');
+
+    // Ensure value is not null
+    expect(value).not.toBeNull();
+
 })
 
 /**
@@ -94,12 +134,19 @@ TC04: Find a book row by author name using XPath or filter
  */
 
 test('TC04: Find a book row by author name using XPath or filter', async ({ page }) => {
-    
+
+    // Wait until all network requests are finished
     await page.waitForLoadState('networkidle', { timeout: 60000 });
-    const table = page.getByTestId('books-table')
-    const val=table.getByRole('row').filter({hasText:'Book Author'})
-    await expect(val).toBeVisible()
-   
+
+    // Locate the books table
+    const table = page.getByTestId('books-table');
+
+    // Filter rows that contain the text "Book Author"
+    const val = table.getByRole('row').filter({ hasText: 'Book Author' });
+
+    // Verify that the filtered row is visible on the page
+    await expect(val).toBeVisible();
+
 })
 
 /**
@@ -112,10 +159,16 @@ TC05: Verify the table is not empty after page load
  */
 
 test('TC05: Verify the table is not empty after page load', async ({ page }) => {
-    
+
+    // Wait until the page finishes loading all network requests
     await page.waitForLoadState('networkidle', { timeout: 60000 });
-    const table = page.locator('tbody tr').first()
-    await expect(table).toBeVisible()
+
+    // Locate the first row inside the table body
+    const table = page.locator('tbody tr').first();
+
+    // Verify that at least one row is visible (table is not empty)
+    await expect(table).toBeVisible();
+
 })
 
 /**
@@ -128,12 +181,22 @@ TC06: Assert the ISBN column contains only string values
  */
 
 test('TC06: Assert the ISBN column contains only string values', async ({ page }) => {
-    
+
+    // Wait for the page to finish loading all network activity
     await page.waitForLoadState('networkidle', { timeout: 60000 });
-    const isbncells = page.locator('//tbody/tr/td[5]')
-    const values = await isbncells.allTextContents()
-    console.log(values)
-    for(let value of values){
-        expect(typeof value).toBe('string')
+
+    // Locate all cells in the ISBN column (5th column in tbody rows)
+    const isbncells = page.locator('//tbody/tr/td[5]');
+
+    // Extract all text values from ISBN column cells
+    const values = await isbncells.allTextContents();
+
+    // Log values for debugging
+    console.log(values);
+
+    // Validate each ISBN value is a string
+    for (let value of values) {
+        expect(typeof value).toBe('string');
     }
+
 })
