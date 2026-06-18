@@ -15,10 +15,16 @@ TC01: Verify radio button is selected on click
  */
 
 test('TC01: Verify radio button is selected on click', async ({ page }) => {
- 
-    const radiobutton = page.getByTestId('radio-yes-1')
-    await radiobutton.click()
-    await expect(radiobutton).toBeChecked()
+
+    // Locate the "Yes" radio button
+    const radiobutton = page.getByTestId('radio-yes-1');
+
+    // Click the radio button to select it
+    await radiobutton.click();
+
+    // Verify the radio button is selected (checked)
+    await expect(radiobutton).toBeChecked();
+
 })
 
 /**
@@ -30,16 +36,26 @@ TC02: Verify selecting another radio deselects the previous one
 5.Assert the second radio button is now selected
  */
 test('TC02: Verify selecting another radio deselects the previous one', async ({ page }) => {
- 
-    const radiobutton1 = page.getByTestId('radio-yes-1')
-    await radiobutton1.click()
-    await expect(radiobutton1).toBeChecked()
 
-    const radiobutton2 = page.getByTestId('radio-no-1')
-    await radiobutton2.click()
+    // Locate the first radio button ("Yes")
+    const radiobutton1 = page.getByTestId('radio-yes-1');
 
-    await expect(radiobutton1).not.toBeChecked()
-    await expect(radiobutton2).toBeChecked()
+    // Click and verify it is selected
+    await radiobutton1.click();
+    await expect(radiobutton1).toBeChecked();
+
+    // Locate the second radio button ("No")
+    const radiobutton2 = page.getByTestId('radio-no-1');
+
+    // Click the second radio button
+    await radiobutton2.click();
+
+    // Verify the first radio button is now deselected
+    await expect(radiobutton1).not.toBeChecked();
+
+    // Verify the second radio button is selected
+    await expect(radiobutton2).toBeChecked();
+
 })
 
 /**
@@ -51,15 +67,24 @@ TC03: Verify only one radio button can be selected at a time
  */
 
 test('TC03: Verify only one radio button can be selected at a time', async ({ page }) => {
- 
-    const yes = page.getByTestId('radio-yes-2')
-    const no = page.getByTestId('radio-no-2')
 
-    await yes.click()
-    await expect(no).not.toBeChecked()
+    // Locate the "Yes" radio button
+    const yes = page.getByTestId('radio-yes-2');
 
-    await no.click()
-    await expect(yes).not.toBeChecked()
+    // Locate the "No" radio button
+    const no = page.getByTestId('radio-no-2');
+
+    // Select "Yes" option
+    await yes.click();
+
+    // Verify "No" is not selected when "Yes" is selected
+    await expect(no).not.toBeChecked();
+
+    // Select "No" option
+    await no.click();
+
+    // Verify "Yes" is not selected when "No" is selected
+    await expect(yes).not.toBeChecked();
 
 })
 
@@ -71,12 +96,15 @@ TC04: Verify radio button label text is correct
  */
 
 test('TC04: Verify radio button label text is correct', async ({ page }) => {
- 
- const labels = page.locator('label')
- 
 
-  await expect(labels.nth(0)).toHaveText('Yes')
-  await expect(labels.nth(1)).toHaveText('No')
+    // Locate all label elements on the page
+    const labels = page.locator('label');
+
+    // Verify first radio button label text is "Yes"
+    await expect(labels.nth(0)).toHaveText('Yes');
+
+    // Verify second radio button label text is "No"
+    await expect(labels.nth(1)).toHaveText('No');
 
 })
 
@@ -89,12 +117,19 @@ TC05: Verify radio button state persists after page interaction
  */
 
 test('TC05: Verify radio button state persists after page interaction', async ({ page }) => {
- 
-    const radiobutton1 = page.getByTestId('radio-yes-1')
-    await radiobutton1.click()
-    const radiobutton2 = page.getByTestId('radio-yes-2')
-    await radiobutton2.click()
-    await expect(radiobutton1).toBeChecked()
+
+    // Locate the first "Yes" radio button
+    const radiobutton1 = page.getByTestId('radio-yes-1');
+
+    // Select the first radio button
+    await radiobutton1.click();
+
+    // Interact with another radio button on the page
+    const radiobutton2 = page.getByTestId('radio-yes-2');
+    await radiobutton2.click();
+
+    // Verify the first radio button remains checked after interaction
+    await expect(radiobutton1).toBeChecked();
 
 })
 
@@ -106,10 +141,16 @@ TC06: Verify checkbox can be checked
 4.Assert isSelected() or isChecked() returns true
  */
 test('TC06: Verify checkbox can be checked', async ({ page }) => {
- 
-    const checkbox = page.getByTestId('checkbox-terms')
-    await checkbox.click()
-    await expect(checkbox).toBeChecked()
+
+    // Locate the terms and conditions checkbox
+    const checkbox = page.getByTestId('checkbox-terms');
+
+    // Click the checkbox to select it
+    await checkbox.click();
+
+    // Verify the checkbox is checked
+    await expect(checkbox).toBeChecked();
+
 })
 
 /**
@@ -120,11 +161,17 @@ TC07: Verify checkbox can be unchecked
 4.Assert isSelected() or isChecked() returns false
  */
 test('TC07: Verify checkbox can be unchecked', async ({ page }) => {
- 
-    const checkbox = page.getByTestId('checkbox-remember-me')
-    await checkbox.click()
-    await expect(checkbox).not.toBeChecked()
-})
+
+    // Locate the "Remember Me" checkbox
+    const checkbox = page.getByTestId('checkbox-remember-me');
+
+    // Click the checkbox (toggle action)
+    await checkbox.click();
+
+    // Verify the checkbox is unchecked
+    await expect(checkbox).not.toBeChecked();
+
+});
 
 /**
 TC08: Verify multiple checkboxes can be selected simultaneously
@@ -134,13 +181,23 @@ TC08: Verify multiple checkboxes can be selected simultaneously
 4.Assert both checkboxes remain checked at the same tim
  */
 test('TC08: Verify multiple checkboxes can be selected simultaneously', async ({ page }) => {
-    const checkbox1 = page.getByTestId('checkbox-remember-me')
-    const checkbox2 = page.getByTestId('checkbox-terms')
-    await checkbox2.click()
-    await expect(checkbox2).toBeChecked()
 
-    await expect(checkbox1).toBeChecked()
-})
+    // Locate the "Remember Me" checkbox
+    const checkbox1 = page.getByTestId('checkbox-remember-me');
+
+    // Locate the "Terms and Conditions" checkbox
+    const checkbox2 = page.getByTestId('checkbox-terms');
+
+    // Select the terms checkbox
+    await checkbox2.click();
+
+    // Verify terms checkbox is checked
+    await expect(checkbox2).toBeChecked();
+
+    // Verify both checkboxes can be selected independently
+    await expect(checkbox1).toBeChecked();
+
+});
 
 /**
 TC09: Verify radio buttons are keyboard navigable
@@ -151,23 +208,32 @@ TC09: Verify radio buttons are keyboard navigable
  */
 
 test('TC09: Verify radio buttons are keyboard navigable', async ({ page }) => {
-  await page.reload()
-    for(let i=0;i<12;i++){
-     await page.keyboard.press('Tab')
-  }
-  const noradio = page.getByTestId('radio-no-1')
-  const yesradio = page.getByTestId('radio-yes-1')
 
-  await page.keyboard.press('ArrowRight') 
-  // one of them should be selected
-  await expect(noradio).toBeChecked()
+    // Reload page to reset state before keyboard interactions
+    await page.reload();
 
-  await page.keyboard.press('ArrowRight')
-  // still only one selected (radio behavior)
-  await expect(yesradio).toBeChecked()
+    // Move focus to the radio button group using Tab navigation
+    for (let i = 0; i < 12; i++) {
+        await page.keyboard.press('Tab');
+    }
 
-  
-})
+    // Locate radio buttons
+    const noradio = page.getByTestId('radio-no-1');
+    const yesradio = page.getByTestId('radio-yes-1');
+
+    // Navigate within radio group using keyboard arrow key
+    await page.keyboard.press('ArrowRight');
+
+    // Verify one radio option gets selected via keyboard navigation
+    await expect(noradio).toBeChecked();
+
+    // Move selection again using arrow key
+    await page.keyboard.press('ArrowRight');
+
+    // Verify only one radio remains selected (radio group behavior)
+    await expect(yesradio).toBeChecked();
+
+});
 
 /**
 TC10: Verify checkbox is keyboard togglable
@@ -179,18 +245,34 @@ TC10: Verify checkbox is keyboard togglable
 */
 
 test('TC10: Verify checkbox is keyboard togglable', async ({ page }) => {
-    await page.reload()
-    const checkbox = page.getByTestId('checkbox-terms')
-    for(let i=0;i<25;i++){
-        const isfocused=await checkbox.evaluate(el=>el===document.activeElement)
-        if(isfocused) break
-     await page.keyboard.press('Tab')
-     
-  }
-    await page.keyboard.press('Space')
-    
-    await expect(checkbox).toBeChecked()
-})
+
+    // Reload page to ensure clean initial state
+    await page.reload();
+
+    // Locate the terms checkbox
+    const checkbox = page.getByTestId('checkbox-terms');
+
+    // Press Tab repeatedly until checkbox receives focus
+    for (let i = 0; i < 25; i++) {
+
+        // Check if checkbox is currently focused
+        const isFocused = await checkbox.evaluate(
+            el => el === document.activeElement
+        );
+
+        // Stop tabbing once focus reaches checkbox
+        if (isFocused) break;
+
+        await page.keyboard.press('Tab');
+    }
+
+    // Toggle checkbox using keyboard (Space key)
+    await page.keyboard.press('Space');
+
+    // Verify checkbox is now checked
+    await expect(checkbox).toBeChecked();
+
+});
 /**
 TC11 & 12: Verify disabled radio button cannot be selected( TC 12 = disabled checknox not avail on site)
 1.Navigate to /practice/radio-checkbox
@@ -201,11 +283,20 @@ TC11 & 12: Verify disabled radio button cannot be selected( TC 12 = disabled che
  */
 
 test('TC11: Verify disabled radio button cannot be selected', async ({ page }) => {
-    const disablebutton = page.getByTestId('radio-maybe')
-    await expect(disablebutton).toBeDisabled()
-    await expect(disablebutton).not.toBeChecked()
-    expect(await disablebutton.isEnabled()).toBeFalsy()
-})
+
+    // Locate the disabled "Maybe" radio button
+    const disablebutton = page.getByTestId('radio-maybe');
+
+    // Verify the radio button is disabled
+    await expect(disablebutton).toBeDisabled();
+
+    // Verify it is not selected by default
+    await expect(disablebutton).not.toBeChecked();
+
+    // Verify it is not enabled using direct boolean check
+    expect(await disablebutton.isEnabled()).toBeFalsy();
+
+});
 
 /**
 TC13: Verify radio button group is accessible to screen readers
@@ -216,24 +307,26 @@ TC13: Verify radio button group is accessible to screen readers
  */
 
 test('TC13: Verify radio button group is accessible to screen readers', async ({ page }) => {
-  const yes = page.getByTestId('radio-yes-1')
-  const no = page.getByTestId('radio-no-1')
 
-  // Step 2: Verify label wrapping (instead of for/id)
-  const yesLabel = yes.locator('xpath=ancestor::label')
-  await expect(yesLabel).toBeVisible()
+    // Locate radio buttons
+    const yes = page.getByTestId('radio-yes-1');
+    const no = page.getByTestId('radio-no-1');
 
-  const noLabel = no.locator('xpath=ancestor::label')
-  await expect(noLabel).toBeVisible()
+    // Verify each radio button has an associated visible label (via ancestor label)
+    const yesLabel = yes.locator('xpath=ancestor::label');
+    await expect(yesLabel).toBeVisible();
 
+    const noLabel = no.locator('xpath=ancestor::label');
+    await expect(noLabel).toBeVisible();
 
-  // Step 4: Verify selection state (use checked, NOT aria-checked)
-  await yes.check()
+    // Select the "Yes" radio button
+    await yes.check();
 
-  await expect(yes).toBeChecked()
-  await expect(no).not.toBeChecked()
-   
-})
+    // Verify correct radio selection behavior
+    await expect(yes).toBeChecked();
+    await expect(no).not.toBeChecked();
+
+});
 
 /**
 TC14: Verify radio button visual state changes on selection
@@ -244,17 +337,36 @@ TC14: Verify radio button visual state changes on selection
  */
 
 test.skip('TC14: Verify radio button visual state changes on selection', async ({ page }) => {
- 
-await page.setViewportSize({ width: 1280, height: 720 })
-const radiobutton = page.getByTestId('radio-bug-yes')
-const wrapper = page.locator('label:has(#radio-bug-yes)')
-await expect(radiobutton).not.toBeChecked()
-await expect(wrapper).toHaveScreenshot('radio-before.png',{maxDiffPixelRatio: 0.02})
-await radiobutton.click()
-await expect(radiobutton).toBeChecked()
-await expect(wrapper).toHaveScreenshot('radio-after.png',{maxDiffPixelRatio: 0.02})
 
-})
+    // Set consistent viewport size for visual regression testing
+    await page.setViewportSize({ width: 1280, height: 720 });
+
+    // Locate the radio button (bug scenario)
+    const radiobutton = page.getByTestId('radio-bug-yes');
+
+    // Locate the wrapper label for screenshot comparison
+    const wrapper = page.locator('label:has(#radio-bug-yes)');
+
+    // Verify radio button is not selected initially
+    await expect(radiobutton).not.toBeChecked();
+
+    // Capture baseline (before selection) screenshot
+    await expect(wrapper).toHaveScreenshot('radio-before.png', {
+        maxDiffPixelRatio: 0.02
+    });
+
+    // Click the radio button to select it
+    await radiobutton.click();
+
+    // Verify radio button is now selected
+    await expect(radiobutton).toBeChecked();
+
+    // Capture after-selection screenshot for visual comparison
+    await expect(wrapper).toHaveScreenshot('radio-after.png', {
+        maxDiffPixelRatio: 0.02
+    });
+
+});
 
 /**
 TC15: Verify radio and checkbox elements load without errors
@@ -265,34 +377,43 @@ TC15: Verify radio and checkbox elements load without errors
  */
 
 test('TC15: Verify radio and checkbox elements load without errors', async ({ page }) => {
- 
-const response =await page.goto('https://www.qaplayground.com/practice/radio-checkbox')
-expect(response?.status()).toBe(200)
 
-const errorslist:string[]=[]
-page.on('pageerror',pe=>{
-    errorslist.push(pe.message)
-})
-expect(errorslist.length).toBe(0)
+    // Navigate to the radio & checkbox page
+    const response = await page.goto('https://www.qaplayground.com/practice/radio-checkbox');
 
-const buttons=[
-    'radio-yes-1',
-    'radio-no-1',
-    'radio-yes-2',
-    'radio-no-2',
-    'radio-bug-yes',
-    'radio-bug-no',
-    'radio-foo',
-    'radio-bar',
-    'radio-going',
-    'radio-not-going',
-    'checkbox-remember-me',
-    'checkbox-terms'
-]
+    // Verify successful page load (HTTP 200)
+    expect(response?.status()).toBe(200);
 
-for(let button of buttons){
-    await expect(page.getByTestId(button)).toBeVisible()
-}
-})
+    // Array to capture any runtime JavaScript errors on the page
+    const errorslist: string[] = [];
 
-        
+    // Listen for page-level JS errors
+    page.on('pageerror', pe => {
+        errorslist.push(pe.message);
+    });
+
+    // Ensure no runtime errors were captured
+    expect(errorslist.length).toBe(0);
+
+    // List of all expected radio and checkbox test IDs
+    const buttons = [
+        'radio-yes-1',
+        'radio-no-1',
+        'radio-yes-2',
+        'radio-no-2',
+        'radio-bug-yes',
+        'radio-bug-no',
+        'radio-foo',
+        'radio-bar',
+        'radio-going',
+        'radio-not-going',
+        'checkbox-remember-me',
+        'checkbox-terms'
+    ];
+
+    // Verify each element is visible on the page
+    for (let button of buttons) {
+        await expect(page.getByTestId(button)).toBeVisible();
+    }
+
+});

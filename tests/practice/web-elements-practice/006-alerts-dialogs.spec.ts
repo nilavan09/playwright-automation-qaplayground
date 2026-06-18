@@ -18,19 +18,20 @@ TC01: Accept a simple browser alert and verify it closes
  */
 
 test('TC01: Accept a simple browser alert and verify it closes', async ({ page }) => {
-
     // await Promise.all([
     //     page.getByTestId('btn-simple-alert').click(),
     //     page.on('dialog',d=>d.accept())  
     // ])
 
+    // Listen for any browser dialog (alert/confirm/prompt)
+    // and automatically accept it when it appears
     page.on('dialog', d => d.accept());
 
+    // Trigger the alert by clicking the button
     await page.getByTestId('btn-confirm-alert').click();
 
-
-    await expect(page.getByTestId('btn-simple-alert')).toBeVisible()
-
+    // Verify that the page is still functional and the button is visible after alert is handled
+    await expect(page.getByTestId('btn-simple-alert')).toBeVisible();
 
 })
 
@@ -45,17 +46,24 @@ TC02: Get text from a simple browser alert before accepting
 
 test('TC02: Get text from a simple browser alert before accepting', async ({ page }) => {
 
+    // Variable to store alert message text
     let message = '';
 
+    // Listen for browser dialog (alert) event
     page.on('dialog', async dialog => {
-        message = dialog.message()
-        await dialog.accept()
+
+        // Capture the alert message text
+        message = dialog.message();
+
+        // Accept the alert to close it
+        await dialog.accept();
     });
 
-    await page.getByTestId('btn-simple-alert').click()
+    // Trigger the alert
+    await page.getByTestId('btn-simple-alert').click();
 
-    expect(message).toBe('Welcome to QA PlayGround!')
-
+    // Verify the alert message text is as expected
+    expect(message).toBe('Welcome to QA PlayGround!');
 
 })
 /**
@@ -69,12 +77,15 @@ TC03: Accept a confirm dialog and verify accepted state
 
 test('TC03: Accept a confirm dialog and verify accepted state', async ({ page }) => {
 
-    await Promise.all([
-        page.on('dialog', d => d.accept()),
-        page.getByTestId('btn-confirm-alert').click()
-    ])
+    // Handle the confirm dialog by accepting it when it appears
+    page.on('dialog', d => d.accept());
 
-    await expect(page.getByTestId('result-confirm')).toHaveText('Result: Accepted')
+    // Click the button that triggers the confirm dialog
+    await page.getByTestId('btn-confirm-alert').click();
+
+    // Verify the result text reflects the accepted action
+    await expect(page.getByTestId('result-confirm'))
+        .toHaveText('Result: Accepted');
 
 })
 
@@ -88,12 +99,15 @@ TC04: Dismiss a confirm dialog and verify dismissed state
  */
 test('TC04: Dismiss a confirm dialog and verify dismissed state', async ({ page }) => {
 
-    await Promise.all([
-        page.on('dialog', d => d.dismiss()),
-        page.getByTestId('btn-confirm-alert').click()
-    ])
+    // Listen for the confirm dialog and dismiss it when it appears
+    page.on('dialog', d => d.dismiss());
 
-    await expect(page.getByTestId('result-confirm')).toHaveText('Result: Dismissed')
+    // Click the button that triggers the confirm dialog
+    await page.getByTestId('btn-confirm-alert').click();
+
+    // Verify that the UI reflects the dismissed action
+    await expect(page.getByTestId('result-confirm'))
+        .toHaveText('Result: Dismissed');
 
 })
 
@@ -105,14 +119,17 @@ TC05: Enter text in a prompt dialog and accept it
 4.In Selenium: Alert prompt = driver.switchTo().alert(); prompt.sendKeys('John Doe'); prompt.accept()
 5.Assert the prompt result display shows 'Your name is - John Doe'
  */
-
 test('TC05: Enter text in a prompt dialog and accept it', async ({ page }) => {
 
-    page.on('dialog', d => d.accept('Pozhilnilavan G'))
+    // Handle the prompt dialog and provide input text, then accept it
+    page.on('dialog', d => d.accept('Pozhilnilavan G'));
 
-    await page.getByTestId('btn-prompt-alert').click()
-    await expect(page.getByTestId('result-prompt')).toHaveText('Your name is — Pozhilnilavan G')
+    // Trigger the prompt dialog
+    await page.getByTestId('btn-prompt-alert').click();
 
+    // Verify the entered text is reflected in the result message
+    await expect(page.getByTestId('result-prompt'))
+        .toHaveText('Your name is — Pozhilnilavan G');
 
 })
 
@@ -126,10 +143,14 @@ TC06: Dismiss a prompt dialog and verify no input is captured
  */
 test('TC06: Dismiss a prompt dialog and verify no input is captured', async ({ page }) => {
 
-    page.on('dialog', d => d.accept())
+    // Handle the prompt dialog by dismissing it (user cancels the input)
+    page.on('dialog', d => d.dismiss());
 
-    await page.getByTestId('btn-prompt-alert').click()
-    await expect(page.getByTestId('result-prompt')).not.toBeVisible()
+    // Trigger the prompt dialog
+    await page.getByTestId('btn-prompt-alert').click();
+
+    // Verify that no result is displayed after dismissing the prompt
+    await expect(page.getByTestId('result-prompt')).not.toBeVisible();
 
 })
 
@@ -143,12 +164,15 @@ TC07: Verify toast notification appears after triggering
  */
 test('TC07: Verify toast notification appears after triggering', async ({ page }) => {
 
-    await page.getByTestId('btn-toast-alert').click()
+    // Trigger the toast notification
+    await page.getByTestId('btn-toast-alert').click();
 
-    //const toastmessage = page.locator('[data-sonner-toast]')
-    //await expect(toastmessage).toHaveText('This is simple toast.')
-
+    // Verify the toast message appears on the screen
     await expect(page.getByText('This is simple toast.')).toBeVisible();
+
+    // Alternative approach (commented): directly locate toast container
+    // const toastmessage = page.locator('[data-sonner-toast]')
+    // await expect(toastmessage).toHaveText('This is simple toast.')
 
 })
 
@@ -163,12 +187,23 @@ TC08: Close a modal/sweet alert using the Cancel button
 
 test('TC08: Close a modal/sweet alert using the Cancel button', async ({ page }) => {
 
-    await page.getByTestId('btn-modal-alert').click()
-    const modal = page.getByRole('alertdialog')
-    await expect(modal).toBeVisible()
-    const cancelButton = modal.getByRole('button', { name: 'You Are!' })
-    await cancelButton.click()
-    await expect(modal).toBeHidden()
+    // Trigger the modal/sweet alert
+    await page.getByTestId('btn-modal-alert').click();
+
+    // Locate the modal dialog
+    const modal = page.getByRole('alertdialog');
+
+    // Verify modal is visible after opening
+    await expect(modal).toBeVisible();
+
+    // Locate the cancel button inside the modal
+    const cancelButton = modal.getByRole('button', { name: 'You Are!' });
+
+    // Click the cancel button to close the modal
+    await cancelButton.click();
+
+    // Verify the modal is no longer visible
+    await expect(modal).toBeHidden();
 
 })
 
@@ -182,9 +217,16 @@ TC09: Close an advanced dialog using the Close button
  */
 
 test('TC09: Close an advanced dialog using the Close button', async ({ page }) => {
-    await page.getByTestId('btn-dialog-share').click()
-    await expect(page.getByTestId('input-share-link')).toHaveValue('https://www.qaplayground.com/practice/alerts-dialogs')
-    await page.getByTestId('btn-dialog-close').click()
+
+    // Open the share/advanced dialog
+    await page.getByTestId('btn-dialog-share').click();
+
+    // Verify the share link is prefilled correctly in the input field
+    await expect(page.getByTestId('input-share-link'))
+        .toHaveValue('https://www.qaplayground.com/practice/alerts-dialogs');
+
+    // Close the dialog using the close button
+    await page.getByTestId('btn-dialog-close').click();
 
 })
 
@@ -197,15 +239,24 @@ TC10: Verify alerts page loads without errors
 */
 test('TC10: Verify alerts page loads without errors', async ({ page }) => {
 
-    const response = await page.goto('https://www.qaplayground.com/practice/alerts-dialogs')
-    expect(response?.status()).toBe(200)
+    // Navigate to the Alerts & Dialogs page
+    const response = await page.goto('https://www.qaplayground.com/practice/alerts-dialogs');
 
-    const errors: string[] = []
+    // Verify the page loaded successfully
+    expect(response?.status()).toBe(200);
+
+    // Array to capture any runtime JavaScript errors on the page
+    const errors: string[] = [];
+
+    // Listen for page-level JavaScript errors
     page.on('pageerror', err => {
-        errors.push(err.message)
-    })
-    expect(errors.length).toBe(0)
+        errors.push(err.message);
+    });
 
+    // Verify no runtime errors occurred during page load
+    expect(errors.length).toBe(0);
+
+    // List of expected alert/dialog buttons on the page
     const allbuttons = [
         'Simple Alert',
         'Confirm Alert',
@@ -213,13 +264,15 @@ test('TC10: Verify alerts page loads without errors', async ({ page }) => {
         'Toast Alert',
         'Sweet Alert',
         'Share'
-    ]
+    ];
 
+    // Verify each button is visible on the page
     for (let button of allbuttons) {
-        await expect(page.getByRole('button', { name: button, exact: true })).toBeVisible()
+        await expect(
+            page.getByRole('button', { name: button, exact: true })
+        ).toBeVisible();
     }
 
 })
-
 
 
