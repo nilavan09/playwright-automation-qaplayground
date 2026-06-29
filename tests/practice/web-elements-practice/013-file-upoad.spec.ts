@@ -16,10 +16,16 @@ TC01: Verify a file can be selected for upload
  */
 
 test('TC01: Verify a file can be selected for upload', async ({ page }) => {
-    
-    const uploadbutton =page.getByTestId('file-upload-input')
+
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
+
+    // Upload the test file from the assets folder
     await uploadbutton.setInputFiles('src/assets/test.txt')
-    await expect(page.getByTestId('file-path-display')).toHaveText('File selected: test.txt')
+
+    // Verify that the selected file name is displayed correctly
+    await expect(page.getByTestId('file-path-display'))
+        .toHaveText('File selected: test.txt')
 })
 
 /**
@@ -31,9 +37,15 @@ TC02: Verify selected file name is displayed after selection
 
 test('TC02: Verify selected file name is displayed after selection', async ({ page }) => {
     
-    const uploadbutton =page.getByTestId('file-upload-input')
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
+
+    // Upload the test file
     await uploadbutton.setInputFiles('src/assets/test.txt')
-    await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
+
+    // Verify that the uploaded file name is displayed on the page
+    await expect(page.getByTestId('file-path-display'))
+        .toContainText('test.txt')
 })
 /**
 TC03: Verify upload button is enabled after file selection
@@ -44,11 +56,17 @@ TC03: Verify upload button is enabled after file selection
  */
 test('TC03: Verify upload button is enabled after file selection', async ({ page }) => {
     
-    const uploadbutton =page.getByTestId('file-upload-input')
-    await expect(uploadbutton).toBeEnabled()
-    await uploadbutton.setInputFiles('src/assets/test.txt')
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
+
+    // Verify that the upload input is enabled before selecting a file
     await expect(uploadbutton).toBeEnabled()
 
+    // Upload the test file
+    await uploadbutton.setInputFiles('src/assets/test.txt')
+
+    // Verify that the upload input remains enabled after file selection
+    await expect(uploadbutton).toBeEnabled()
 })
 
 /**
@@ -61,11 +79,17 @@ Expected actions not present on the site replicated TC03
  */
 test('TC04: Verify file upload starts on clicking upload button', async ({ page }) => {
     
-    const uploadbutton =page.getByTestId('file-upload-input')
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
+
+    // Verify that the file input is enabled before uploading
     await expect(uploadbutton).toBeEnabled()
+
+    // Select the test file for upload
     await uploadbutton.setInputFiles('src/assets/test.txt')
+
+    // Verify that the file input remains enabled after file selection
     await expect(uploadbutton).toBeEnabled()
-    
 })
 /**
 TC05: Verify success message appears after upload
@@ -76,12 +100,21 @@ TC05: Verify success message appears after upload
  */
 test('TC05: Verify success message appears after upload', async ({ page }) => {
     
-    const uploadbutton =page.getByTestId('file-upload-input')
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
+
+    // Verify that the file input is enabled before uploading
     await expect(uploadbutton).toBeEnabled()
+
+    // Upload the test file
     await uploadbutton.setInputFiles('src/assets/test.txt')
+
+    // Verify that the file input remains enabled after file selection
     await expect(uploadbutton).toBeEnabled()
-    await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
-    
+
+    // Verify that the uploaded file name is displayed successfully
+    await expect(page.getByTestId('file-path-display'))
+        .toContainText('test.txt')
 })
 
 /**
@@ -93,14 +126,24 @@ TC06: Verify file upload is responsive on mobile viewport
  */
 test('TC06: Verify file upload is responsive on mobile viewport', async ({ page }) => {
 
+    // Set the viewport size to simulate a mobile device
+    await page.setViewportSize({
+        width: 375,
+        height: 667,
+    })
 
-    await page.setViewportSize({width: 375,height: 667,})
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
 
-    const uploadbutton =page.getByTestId('file-upload-input')
+    // Verify that the file upload input is visible on mobile view
     await expect(uploadbutton).toBeVisible()
+
+    // Upload the test file
     await uploadbutton.setInputFiles('src/assets/test.txt')
-    await expect(page.getByTestId('file-path-display')).toContainText('test.txt')
-    
+
+    // Verify that the uploaded file name is displayed correctly on mobile view
+    await expect(page.getByTestId('file-path-display'))
+        .toContainText('test.txt')
 })
 /**
 TC07: Verify file upload is accessible via keyboard
@@ -111,20 +154,28 @@ TC07: Verify file upload is accessible via keyboard
  */
 test.skip('TC13: Verify file upload is accessible via keyboard', async ({ page }) => {
 
-    const uploadbutton =page.getByTestId('file-upload-input')
+    // Locate the file upload input element
+    const uploadbutton = page.getByTestId('file-upload-input')
 
-    for(let i=0;i<13;i++){
-     await page.keyboard.press('Tab')
-        const isfocused = await uploadbutton.evaluate(el=>el===document.activeElement)
-        if(isfocused) break 
-  }
+    // Navigate through the page using the Tab key until the upload input receives focus
+    for (let i = 0; i < 13; i++) {
+        await page.keyboard.press('Tab')
 
-    const [popup]=await Promise.all([
-    page.waitForEvent('filechooser'),
-    page.keyboard.press('Enter')
-   ])
+        const isfocused = await uploadbutton.evaluate(
+            el => el === document.activeElement
+        )
 
-   expect(popup).toBeDefined()
+        if (isfocused) break
+    }
+
+    // Press Enter on the focused upload input and wait for the file chooser dialog
+    const [popup] = await Promise.all([
+        page.waitForEvent('filechooser'),
+        page.keyboard.press('Enter')
+    ])
+
+    // Verify that the file chooser dialog is opened successfully
+    expect(popup).toBeDefined()
 })
 
 /**
@@ -136,18 +187,23 @@ TC08: Verify file upload page loads without errors
  */
 test('TC08: Verify file upload page loads without errors', async ({ page }) => {
 
-const response =await page.goto('https://www.qaplayground.com/practice/file-upload')
-expect(response?.status()).toBe(200)
+    // Navigate to the file upload page and verify that it loads successfully
+    const response = await page.goto('https://www.qaplayground.com/practice/file-upload')
+    expect(response?.status()).toBe(200)
 
-const errorslist:string[]=[]
-page.on('pageerror',pe=>{
-    errorslist.push(pe.message)
-})
-expect(errorslist.length).toBe(0)
-const uploadbutton =page.getByTestId('file-upload-input')
-await expect(uploadbutton).toBeVisible()
-})
+    // Capture any JavaScript errors that occur on the page
+    const errorslist: string[] = []
+    page.on('pageerror', pe => {
+        errorslist.push(pe.message)
+    })
 
+    // Verify that no JavaScript errors are present
+    expect(errorslist.length).toBe(0)
+
+    // Verify that the file upload input is visible after the page loads
+    const uploadbutton = page.getByTestId('file-upload-input')
+    await expect(uploadbutton).toBeVisible()
+})
 /**
 TC09: Verify download starts on clicking the download button
 1.Navigate to /practice/file-upload (download section)
@@ -158,20 +214,20 @@ TC09: Verify download starts on clicking the download button
  */
 test('TC09: Verify download starts on clicking the download button', async ({ page }) => {
 
-  // Locate download button
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Listen for download and click
+  // Wait for the download event while clicking the download button
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  //Save file to a known directory
+  // Save the downloaded file to the local downloads directory
   const downloadPath = path.join('downloads', download.suggestedFilename());
   await download.saveAs(downloadPath);
 
-  //Assert file exists
+  // Verify that the downloaded file exists in the specified location
   expect(fs.existsSync(downloadPath)).toBeTruthy();
 
 })
@@ -182,23 +238,24 @@ TC10: Verify downloaded file name matches expected value
 2.Click the download button
 3.Assert the downloaded file name matches the expected filename
  */
-test('TTC10: Verify downloaded file name matches expected value', async ({ page }) => {
+test('TC10: Verify downloaded file name matches expected value', async ({ page }) => {
 
-  // Locate download button
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Listen for download and click
+  // Wait for the download event while clicking the download button
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  //Save file to a known directory
+  // Save the downloaded file to the local downloads directory
   const downloadPath = path.join('downloads', download.suggestedFilename());
   await download.saveAs(downloadPath);
 
-  //Assert file exists
-  expect(download.suggestedFilename()).toBe('android-chrome-512x512.png');
+  // Verify that the downloaded file name matches the expected value
+  expect(download.suggestedFilename())
+    .toBe('android-chrome-512x512.png');
 
 })
 
@@ -215,21 +272,24 @@ Assert the file size is greater than 0 bytes
  */
 test('TC11: Verify downloaded file is not empty', async ({ page }) => {
 
-  // Locate download button
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Listen for download and click
+  // Wait for the download event while clicking the download button
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  //Save file to a known directory
+  // Save the downloaded file to the local downloads directory
   const downloadPath = path.join('downloads', download.suggestedFilename());
   await download.saveAs(downloadPath);
 
-  const filesize = fs.statSync(downloadPath)
-  expect(filesize.size).toBeGreaterThan(0)
+  // Get the downloaded file size
+  const filesize = fs.statSync(downloadPath);
+
+  // Verify that the downloaded file is not empty
+  expect(filesize.size).toBeGreaterThan(0);
 
 })
 /**
@@ -241,21 +301,22 @@ TC12: Verify downloaded file content matches expected data
  */
 test('TC12: Verify downloaded file content matches expected data', async ({ page }) => {
 
-   // Locate download button
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Listen for download and click
+  // Wait for the download event while clicking the download button
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  //Save file to a known directory
+  // Save the downloaded file to the local downloads directory
   const downloadPath = path.join('downloads', download.suggestedFilename());
   await download.saveAs(downloadPath);
 
-  //Assert file exists
-  expect(download.suggestedFilename()).toBe('android-chrome-512x512.png');
+  // Verify that the downloaded file name matches the expected file
+  expect(download.suggestedFilename())
+    .toBe('android-chrome-512x512.png');
 
 })
 
@@ -268,19 +329,27 @@ TC13: Verify download button is keyboard accessible
  */
 test('TC13: Verify download button is keyboard accessible', async ({ page }) => {
 
-  const downloaddbutton =page.getByTestId('btn-download-image')
+    // Locate the download button
+    const downloaddbutton = page.getByTestId('btn-download-image')
 
-    for(let i=0;i<20;i++){
-     await page.keyboard.press('Tab')
-     const isfocused=await downloaddbutton.evaluate(el=>el=== document.activeElement)
-     if(isfocused)break
+    // Navigate through the page using the Tab key until the download button receives focus
+    for (let i = 0; i < 20; i++) {
+        await page.keyboard.press('Tab')
+
+        const isfocused = await downloaddbutton.evaluate(
+            el => el === document.activeElement
+        )
+
+        if (isfocused) break
     }
 
-    const [download]= await Promise.all([
+    // Press Enter on the focused download button and wait for the download to start
+    const [download] = await Promise.all([
         page.waitForEvent('download'),
         page.keyboard.press('Enter')
     ])
 
+    // Verify that the download is triggered successfully
     expect(download).toBeDefined()
 })
 
@@ -293,9 +362,14 @@ TC14: Verify download link href attribute is correct
 
 test('TC14: Verify download link href attribute is correct', async ({ page }) => {
 
-  const downloaddbutton =page.locator('a:has([data-testid="btn-download-image"])')
+    // Locate the anchor element associated with the download button
+    const downloaddbutton = page.locator(
+        'a:has([data-testid="btn-download-image"])'
+    )
 
-  await expect(downloaddbutton).toHaveAttribute('href','/icons/android-chrome-512x512.png')
+    // Verify that the download link points to the expected file path
+    await expect(downloaddbutton)
+        .toHaveAttribute('href', '/icons/android-chrome-512x512.png')
 })
 /**
 TC15: Verify download works on different browsers
@@ -305,42 +379,49 @@ TC15: Verify download works on different browsers
  */
 test('TC15: Verify download works on different browsers', async ({ page }) => {
 
-  //in playwright.config.ts file enable all browser.
-  // Locate download button
+  // Execute this test across multiple browsers by enabling them in playwright.config.ts
+
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Listen for download and click
+  // Wait for the download event while clicking the download button
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  //Save file to a known directory
+  // Save the downloaded file to the local downloads directory
   const downloadPath = path.join('downloads', download.suggestedFilename());
   await download.saveAs(downloadPath);
 
-  //Assert file exists
-  expect(download.suggestedFilename()).toBe('android-chrome-512x512.png');
+  // Verify that the downloaded file name matches the expected value
+  expect(download.suggestedFilename())
+    .toBe('android-chrome-512x512.png');
 
 })
 
 /**
-TC16: Verify download is responsive on mobile viewport
-1.Navigate to the download section at 375px width
-2.Assert the download button is visible and tappable
-3.Trigger a download and assert it initiates
- */
-test('Verify download is responsive on mobile viewport', async ({ page }) => {
+test('TC16: Verify download is responsive on mobile viewport', async ({ page }) => {
 
-  await page.setViewportSize({width:375 , height:672})
+    // Set the viewport size to simulate a mobile device
+    await page.setViewportSize({
+        width: 375,
+        height: 672
+    })
 
-  const downloaddbutton =page.getByTestId('btn-download-image')
+    // Locate the download button
+    const downloaddbutton = page.getByTestId('btn-download-image')
 
-    const [download]= await Promise.all([
+    // Verify that the download button is visible on mobile view
+    await expect(downloaddbutton).toBeVisible()
+
+    // Trigger the download and wait for the download event
+    const [download] = await Promise.all([
         page.waitForEvent('download'),
         downloaddbutton.click()
     ])
 
+    // Verify that the download is initiated successfully
     expect(download).toBeDefined()
 
 })
@@ -353,34 +434,37 @@ TC17: Verify multiple downloads can occur sequentially
  */
 test('TC17: Verify multiple downloads can occur sequentially', async ({ page }) => {
 
+  // Locate the download buttons for the image and PDF files
   const downloadButton1 = page.getByTestId('btn-download-image')
-  const downloadButton2= page.getByTestId('btn-download-pdf')
+  const downloadButton2 = page.getByTestId('btn-download-pdf')
 
-  // First download
+  // Trigger the first download and wait for it to start
   const [download1] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton1.click(),
-  ]);
+  ])
 
-  const file1 = path.join('downloads', download1.suggestedFilename());
-  await download1.saveAs(file1);
+  // Save the first downloaded file
+  const file1 = path.join('downloads', download1.suggestedFilename())
+  await download1.saveAs(file1)
 
-  // Second download
+  // Trigger the second download and wait for it to start
   const [download2] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton2.click(),
-  ]);
+  ])
 
-  const file2 = path.join('downloads',download2.suggestedFilename());
-  await download2.saveAs(file2);
+  // Save the second downloaded file
+  const file2 = path.join('downloads', download2.suggestedFilename())
+  await download2.saveAs(file2)
 
-  // Assertions
-  expect(fs.existsSync(file1)).toBeTruthy();
-  expect(fs.existsSync(file2)).toBeTruthy();
+  // Verify that both downloaded files exist
+  expect(fs.existsSync(file1)).toBeTruthy()
+  expect(fs.existsSync(file2)).toBeTruthy()
 
-  expect(file1).not.toBe(file2);
-});
-
+  // Verify that the downloaded files are different
+  expect(file1).not.toBe(file2)
+})
 /**
 TC18: Verify download does not navigate away from page
 1.Navigate to the file download section
@@ -389,21 +473,22 @@ TC18: Verify download does not navigate away from page
  */
 test('TC18: Verify download does not navigate away from page', async ({ page }) => {
 
+  // Locate the download button
   const downloadButton = page.getByTestId('btn-download-image');
 
-  // Capture initial URL
+  // Capture the current page URL before initiating the download
   const initialURL = page.url();
 
-  // Trigger download
+  // Trigger the download and wait for the download event
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     downloadButton.click(),
   ]);
 
-  // Ensure download happened
+  // Verify that the download was initiated successfully
   expect(download).toBeDefined();
 
-  // Assert URL did not change
+  // Verify that the page URL remains unchanged after the download
   expect(page.url()).toBe(initialURL);
 });
 /**
@@ -444,14 +529,20 @@ TC20: Verify file download page loads without errors
  */
 test('TC20: Verify file download page loads without errors', async ({ page }) => {
 
-const response =await page.goto('https://www.qaplayground.com/practice/file-upload')
-expect(response?.status()).toBe(200)
+    // Navigate to the file download page and verify that it loads successfully
+    const response = await page.goto('https://www.qaplayground.com/practice/file-upload')
+    expect(response?.status()).toBe(200)
 
-const errorslist:string[]=[]
-page.on('pageerror',pe=>{
-    errorslist.push(pe.message)
-})
-expect(errorslist.length).toBe(0)
-const uploadbutton =page.getByTestId('btn-download-image')
-await expect(uploadbutton).toBeVisible()
+    // Capture any JavaScript errors that occur on the page
+    const errorslist: string[] = []
+    page.on('pageerror', pe => {
+        errorslist.push(pe.message)
+    })
+
+    // Verify that no JavaScript errors are present
+    expect(errorslist.length).toBe(0)
+
+    // Verify that the download button is visible after the page loads
+    const uploadbutton = page.getByTestId('btn-download-image')
+    await expect(uploadbutton).toBeVisible()
 })
