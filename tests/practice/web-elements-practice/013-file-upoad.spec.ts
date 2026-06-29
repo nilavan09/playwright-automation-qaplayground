@@ -36,7 +36,7 @@ TC02: Verify selected file name is displayed after selection
  */
 
 test('TC02: Verify selected file name is displayed after selection', async ({ page }) => {
-    
+
     // Locate the file upload input element
     const uploadbutton = page.getByTestId('file-upload-input')
 
@@ -55,7 +55,7 @@ TC03: Verify upload button is enabled after file selection
 4.Assert the upload button is now enabled
  */
 test('TC03: Verify upload button is enabled after file selection', async ({ page }) => {
-    
+
     // Locate the file upload input element
     const uploadbutton = page.getByTestId('file-upload-input')
 
@@ -78,7 +78,7 @@ TC04: Verify file upload starts on clicking upload button
 Expected actions not present on the site replicated TC03
  */
 test('TC04: Verify file upload starts on clicking upload button', async ({ page }) => {
-    
+
     // Locate the file upload input element
     const uploadbutton = page.getByTestId('file-upload-input')
 
@@ -99,7 +99,7 @@ TC05: Verify success message appears after upload
 4.Assert a success message or confirmation is visible
  */
 test('TC05: Verify success message appears after upload', async ({ page }) => {
-    
+
     // Locate the file upload input element
     const uploadbutton = page.getByTestId('file-upload-input')
 
